@@ -1,0 +1,122 @@
+
+                   J E S 2  J O B  L O G  --  S Y S T E M  2 9 6 4  --  N O D E  S V S C J E S 2        
+
+ 
+16.50.30 JOB07505 ---- MONDAY,    13 FEB 2023 ----
+16.50.30 JOB07505  IRR010I  USERID KC03E3B  IS ASSIGNED TO THIS JOB.
+16.50.30 JOB07505  ICH70001I KC03E3B  LAST ACCESS AT 16:47:54 ON MONDAY, FEBRUARY 13, 2023
+16.50.30 JOB07505  $HASP373 KC03E3BA STARTED - INIT 1    - CLASS A        - SYS 2964
+16.50.30 JOB07505  -                                      -----TIMINGS (MINS.)------                          -----PAGING COUNTS----
+16.50.30 JOB07505  -STEPNAME PROCSTEP    RC   EXCP   CONN       TCB       SRB  CLOCK          SERV  WORKLOAD  PAGE  SWAP   VIO SWAPS
+16.50.30 JOB07505  -JSTEP01              00     21      2       .00       .00     .0             4  BATCH        0     0     0     0
+16.50.30 JOB07505  -KC03E3BA ENDED.  NAME-K. GANDHI            TOTAL TCB CPU TIME=      .00 TOTAL ELAPSED TIME=    .0
+16.50.30 JOB07505  $HASP395 KC03E3BA ENDED - RC=0000
+
+------ JES2 JOB STATISTICS ------
+
+
+  13 FEB 2023 JOB EXECUTION DATE
+
+
+           37 CARDS READ
+
+
+           93 SYSOUT PRINT RECORDS
+
+
+            0 SYSOUT PUNCH RECORDS
+
+
+           10 SYSOUT SPOOL KBYTES
+
+
+         0.00 MINUTES EXECUTION TIME
+!! END OF JES SPOOL FILE !!
+       1 //KC03E3BA JOB ,'K. GANDHI',MSGCLASS=H                                  JOB07505
+       2 //JSTEP01  EXEC PGM=ASSIST                                                      
+       3 //STEPLIB  DD DSN=KC00NIU.ASSIST.LOADLIB,DISP=SHR                               
+       4 //SYSPRINT DD SYSOUT=*                                                          
+       5 //SYSIN    DD *                                                                 
+       6 //                                                                              
+!! END OF JES SPOOL FILE !!
+ICH70001I KC03E3B  LAST ACCESS AT 16:47:54 ON MONDAY, FEBRUARY 13, 2023
+IEFA111I KC03E3BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+         SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+IEF236I ALLOC. FOR KC03E3BA JSTEP01
+IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+IEF237I JES2 ALLOCATED TO SYSPRINT
+IEF237I JES2 ALLOCATED TO SYSIN
+IEF142I KC03E3BA JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+IGD104I KC00NIU.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB 
+IEF285I   KC03E3B.KC03E3BA.JOB07505.D0000102.?         SYSOUT        
+IEF285I   KC03E3B.KC03E3BA.JOB07505.D0000101.?         SYSIN         
+IEF373I STEP/JSTEP01 /START 2023044.1650
+IEF032I STEP/JSTEP01 /STOP  2023044.1650 
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+        VIRT:   584K  SYS:   248K  EXT:        0K  SYS:    11400K
+        ATB- REAL:                  1056K  SLOTS:                     0K
+             VIRT- ALLOC:      13M SHRD:       0M
+IEF375I  JOB/KC03E3BA/START 2023044.1650
+IEF033I  JOB/KC03E3BA/STOP  2023044.1650 
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC    
+!! END OF JES SPOOL FILE !!
+
+*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT            
+
+                                                                                                                                    
+
+                                                                                                               PAGE    1            
+
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT                                                                          
+                                      1 *****************************************************************                           
+                                      2 *                                                               *                           
+                                      3 *  CSCI 360-PE1           ASSIGNMENT 3           SPRING 2023    *                           
+                                      4 *                                                               *                           
+                                      5 *  DEVELOPER NAME: KUSH GANDHI                                  *                           
+                                      6 *                                                               *                           
+                                      7 *        DUE DATE: 02/17/2023                                   *                           
+                                      8 *                                                               *                           
+                                      9 *    PROGRAM NAME: BASIC ASSEMBLY PROGRAM                       *                           
+                                     10 *                                                               *                           
+                                     11 *        FUNCTION: ADDING REGISTERS 2 AND 3 USING EXPLICIT      *                           
+                                     12 *                  ADDRESSING. THEN USE XDUMP TO DUMP REGISTERS *                           
+                                     13 *****************************************************************                           
+                                     14 *                                                                                           
+000000                               15 MAIN     CSECT                                                                              
+000000                               16          USING MAIN,15     ESTABLISH ADDRESSABILITY ON REG 15                               
+000000 5820 F01C            0001C    17          L     2,28(,15)   EXPLICIT ADDRESSING ON REG 2                                     
+000004 5830 F018            00018    18          L     3,24(,15)   EXPLICIT ADDRESSING ON REG 3                                     
+                                     19 *                                                                                           
+000008 1B23                          20          SR    2,3         SUBTACT 3 FROM 2                                                 
+00000A 5040 F020            00020    21          ST    4,32(,15)   STORE THE DIFFERENCE IN ANSWER                                   
+                                     22 *                                                                                           
+00000E E060 F020 0004 00020          23          XDUMP ANSWER,4    DUMPS THE REGISTRER                                              
+000014 07FE                          24          BCR   B'1111',14  UNCONDITIONAL RETURN TO CALLER (OS)                              
+                                     25 *                                                                                           
+000018 0000000F                      26 NUM2     DC    F'15'       DEFINE FULLWORD OF 15 IN STORAGE                                 
+00001C 00000007                      27 NUM1     DC    F'7'        DEFINE FULLWORD OF 7 IN STORAGE                                  
+000020                               28 ANSWER   DS    F           FULLWORD STORAGE                                                 
+                                     29 *                                                                                           
+                                     30          END   MAIN                                                                         
+
+***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS                                                                         
+
+*** DYNAMIC CORE AREA USED:  LOW:     856 HIGH:     372 LEAVING:  492340 FREE BYTES. AVERAGE:       39 BYTES/STMT ***               
+
+*** ASSEMBLY TIME =    0.000 SECS,    31000 STATEMENTS/SEC ***                                                                      
+
+*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***                          
+
+BEGIN XSNAP - CALL     1 AT D0000014 USER STORAGE                                                                                   
+
+                             CORE ADDRESSES SPECIFIED-     000020 TO 000024                                                         
+000020   F4F4F4F4 F5F5F5F5 F5F5F5F5 00000000    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *444455555555....5555555555555555*            
+
+                                                                                                                                    
+
+*** EXECUTION TIME =    0.000 SECS.         6 INSTRUCTIONS EXECUTED -     6000 INSTRUCTIONS/SEC ***                                 
+
+*** FIRST CARD NOT READ: NO CARDS READ:FILE UNOPENED                                                                                
+
+*** AM004 - NORMAL USER TERMINATION BY RETURN ***                                                                                   
+!! END OF JES SPOOL FILE !!

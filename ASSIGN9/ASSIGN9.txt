@@ -1,0 +1,1142 @@
+                   J E S 2  J O B  L O G  --  S Y S T E M  8 5 6 1  --  N O D E  S V S C J E S 2
+ 
+21.35.41 JOB02900 ---- WEDNESDAY, 10 MAY 2023 ----
+21.35.41 JOB02900  IRR010I  USERID KC03E3B  IS ASSIGNED TO THIS JOB.
+21.35.41 JOB02900  ICH70001I KC03E3B  LAST ACCESS AT 21:34:54 ON WEDNESDAY, MAY 10, 2023
+21.35.41 JOB02900  $HASP373 KC03E3BA STARTED - INIT 3    - CLASS A        - SYS 8561
+21.35.42 JOB02900  -                                      -----TIMINGS (MINS.)------                          -----PAGING COUNTS----
+21.35.42 JOB02900  -STEPNAME PROCSTEP    RC   EXCP   CONN       TCB       SRB  CLOCK          SERV  WORKLOAD  PAGE  SWAP   VIO SWAPS
+21.35.42 JOB02900  -JSTEP01              00     55      4       .00       .00     .0             9  BATCH        0     0     0     0
+21.35.42 JOB02900  -KC03E3BA ENDED.  NAME-K.GANDHI             TOTAL TCB CPU TIME=      .00 TOTAL ELAPSED TIME=    .0
+21.35.42 JOB02900  $HASP395 KC03E3BA ENDED - RC=0000
+------ JES2 JOB STATISTICS ------
+  10 MAY 2023 JOB EXECUTION DATE
+          456 CARDS READ
+          701 SYSOUT PRINT RECORDS
+            0 SYSOUT PUNCH RECORDS
+           65 SYSOUT SPOOL KBYTES
+         0.00 MINUTES EXECUTION TIME
+        1 //KC03E3BA JOB ,'K.GANDHI',MSGCLASS=H                                   JOB02900
+        2 //JSTEP01  EXEC PGM=ASSIST
+        3 //STEPLIB  DD DSN=KC00NIU.ASSIST.LOADLIB,DISP=SHR
+        4 //SYSPRINT DD SYSOUT=*
+        5 //SYSIN    DD *
+          //*
+        6 //FT05F001 DD DSN=KC02322.CSCI360.ASNDATA(DATA9),DISP=SHR
+          //*
+        7 //FT06F001 DD SYSOUT=*
+        8 //
+ICH70001I KC03E3B  LAST ACCESS AT 21:34:54 ON WEDNESDAY, MAY 10, 2023
+IEFA111I KC03E3BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+         SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+IEF236I ALLOC. FOR KC03E3BA JSTEP01
+IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+IEF237I JES2 ALLOCATED TO SYSPRINT
+IEF237I JES2 ALLOCATED TO SYSIN
+IGD103I SMS ALLOCATED TO DDNAME FT05F001
+IEF237I JES2 ALLOCATED TO FT06F001
+IEF142I KC03E3BA JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+IGD104I KC00NIU.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB
+IEF285I   KC03E3B.KC03E3BA.JOB02900.D0000102.?         SYSOUT
+IEF285I   KC03E3B.KC03E3BA.JOB02900.D0000101.?         SYSIN
+IGD104I KC02322.CSCI360.ASNDATA                      RETAINED,  DDNAME=FT05F001
+IEF285I   KC03E3B.KC03E3BA.JOB02900.D0000103.?         SYSOUT
+IEF373I STEP/JSTEP01 /START 2023130.2135
+IEF032I STEP/JSTEP01 /STOP  2023130.2135
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+        VIRT:   584K  SYS:   248K  EXT:        0K  SYS:    11324K
+        ATB- REAL:                  1056K  SLOTS:                     0K
+             VIRT- ALLOC:      13M SHRD:       0M
+IEF375I  JOB/KC03E3BA/START 2023130.2135
+IEF033I  JOB/KC03E3BA/STOP  2023130.2135
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+*******************************************************************
+*                                                                 *
+*  CSCI 360-PE1           ASSIGNMENT 9                 SPRING 23  *
+*                        PACKED DECIMAL                           *
+*                                                                 *
+*  DEVELOPER NAME: KUSH GANDHI                                    *
+*        DUE DATE: 4/21/23                                        *
+*                                                                 *
+*    PROGRAM NAME: PACKED DECIMAL                                 *
+*                                                                 *
+*    FUNCTION: CREATING A PROPER REPORT USING PACKED DECIMAL      *
+*******************************************************************
+*
+PAYROLL2 CSECT
+*
+*  STANDARD ENTRY LINKAGE WITH R12 AS BASE REGISTER
+*
+         STM   14,12,12(13)  SAVE REGS IN CALLER'S SAVE AREA
+         LR    12,15         COPY CSECT ADDR INTO R12
+         USING PAYROLL2,12   ESTABLISH R12 AS THE BASE REG
+         LA    14,SAVEREGS   R14 POINTS TO THIS CSECT'S SAVE AREA
+         ST    14,8(,13)     STORE ADDR OF THIS CSECT'S SAVE AREA
+         ST    13,4(,14)     STORE ADDR OF CALLER'S SAVE AREA
+         LR    13,14         POINT R13 AT THIS CSECT'S SAVE AREA
+*
+         LA    2,99           LINE COUNTER
+*
+         XREAD RECORD,80      READS STATE PERCENT
+*
+         PACK  PFWHPCT(3),RECORD(5) PACK AND STORE FED PERCENT
+         PACK  PSWHPCT(3),NUM1(5)   PACK AND STORE ST PERCENT
+*
+         XREAD RECORD,80      READS EMPLOYEE DATA
+*
+LOOP1    BC   B'0100',ENDLOOP1 BRANCH TO ENDLOOP1 IF EOF
+*
+         AP    PEMPCTR(3),=PL1'1'    ADD 1 TO EMPLOYEE COUNTER
+         MVI   EMPLOYEE+1,C' '
+         MVC   EMPLOYEE+2(131),EMPLOYEE+1
+*
+*
+* PACKS AND STORES EMPLOYEE ID
+         PACK  PEMPID(4),IEMPID(8)   PACK AND STORE EMPLOYEE ID
+         MVC   OEMPID(8),=X'402020602020202020202020'  EDIT PATTERN
+         ED    OEMPID(8),PEMPID      CONVERT TO PRINTABLE EBCDIC
+*
+*
+* READS EMPLOYEE NAME BY MVC
+         MVC   OEMPNAME(25),IEMPNME  READS NAME AND MOVE TO PRINTLINE
+*
+*
+* GET HOURLY PAY AND PACK IT
+         LA    1,OHRPAY+1                     SETS BYTE
+         PACK  PHRPAY(3),IHRPAY(5)            PACK HOURLY PAY
+         MVC   OHRPAY(7),=X'402021204B202020' EDIT PATTERN
+         ED    OHRPAY(7),PHRPAY             CONVERT TO PRINTABLE EBCDIC
+         MVI   0(1),C'$'                      INSERT A $
+*
+*
+* GET HOURS WORKED AND PACK IT
+         PACK  PHOURS(3),IHOURS(5)          PACK HOURS
+         MVC   OHOURS(7),=X'402021204B2020'   EDIT PATTERN
+         ED    OHOURS(7),PHOURS             CONVERT TO PRINTABLE EBCDIC
+*
+*
+* GET DEDUCTION AMT AND PACK IT
+         PACK  PDEDUCT(3),IDEDUCT(5)
+*
+*
+* GET BONUS AMT AND PACK IT
+         PACK  PBONUS(3),IBONUS(5)
+*
+*
+* GROSS PAY CALCULATIONS
+         LA    1,OGPAY+6               SETS BYTE FOR $
+         ZAP   PEMPGPAY(6),PHRPAY(3)   INITIALIZE GROSS PAY WITH HR PAY
+         MP    PEMPGPAY(6),PHOURS(3)   HOURLY PAY * HOURS WORKED
+         SRP   PEMPGPAY(6),64-2,5      ROUND 2 DECIMAL PLACES
+         SP    PEMPGPAY(6),PDEDUCT(3)  GROSS PAY - DEDUCTIONS
+         AP    PEMPGPAY(6),PBONUS(3)   GROSS PAY + BONUS
+*
+         MVC   OGPAY(15),=X'402020206B2020206B2020204B2020'
+*
+         ED    OGPAY(15),PEMPGPAY      CONVERT TO PRINTABLE EBCDIC
+         AP    PTGRPAY(7),PEMPGPAY(6)  ADD TO TOTAL
+         MVI   0(1),C'$'               INSERT A $
+*
+*
+* CALCULATE EMPLOYEE FEDERAL WITHOLDING
+         LA    1,OFEDWH+4              SETS BYTE FOR $
+         ZAP   PCALC(10),PEMPGPAY(6)   INITIALIZE THE PCALC FOR G-PAY
+         MP    PCALC(10),PFWHPCT(3)    GROSS PAY * FEDERAL PERCENT
+         SRP   PCALC(10),64-4,5        ROUND 4 DECIMAL PLACES
+         ZAP   PFEDWITH(6),PCALC(10)   COPY AMT OVER TO PFEDWITH
+*
+         MVC   OFEDWH(15),=X'402020206B2020206B2020204B2020'
+*
+         ED    OFEDWH(15),PFEDWITH     CONVERT TO PRINTABLE EBCDIC
+         AP    PTFWITH(7),PFEDWITH(6)  ADD TO TOTAL
+         MVI   0(1),C'$'               INSERT A $
+*
+*
+* CALCULATE EMPLOYEE STATE WITHOLDING
+         LA    1,OSTWH+6               SETS BYTE FOR $
+         ZAP   PCALC(10),PEMPGPAY(6)   INITIALIZE THE PCALC FOR G-PAY
+         MP    PCALC(10),PSWHPCT(3)    GROSS PAY * STATE PERCENT
+         SRP   PCALC(10),64-4,5        ROUND 4 DECIMAL PLACES
+         ZAP   PSTWITH(6),PCALC(10)    COPY AMT OVER TO PSEDWITH
+*
+         MVC   OSTWH(14),=X'4020206B2020206B2020204B2020'
+*
+         ED    OSTWH(14),PSTWITH       CONVERT TO PRINTABLE EBCDIC
+         AP    PTSWITH(7),PSTWITH(6)   ADD TO TOTAL
+         MVI   0(1),C'$'               INSERT A $
+*
+*
+* CALCULATE EMPLOYE NET PAY
+         LA    1,ONETPAY+6               SETS BYTE FOR $ OUTPUT
+         SP    PEMPGPAY(6),PFEDWITH(6)   GROSS PAY - FEDERAL
+         SP    PEMPGPAY(6),PSTWITH(6)    GROSS PAY - STATE
+         ZAP   PEMPNPAY(6),PEMPGPAY(6)   INITIALIZE INTO NETPAY
+*
+         MVC   ONETPAY(15),=X'402020206B2020206B2020204B2020'
+*
+         ED    ONETPAY(15),PEMPNPAY      CONVERT TO PRINTABLE EBCDIC
+         AP    PTNETPAY(7),PEMPNPAY(6)   ADD TO TOTAL
+         MVI   0(1),C'$'                 INSERT A $
+*
+*
+* PRINTS OUT PAGE COUNTER AND FORMATING
+         C     2,=F'17'                COMPARE EVERY 17 DETAIL LINES
+         BL    SKIPHEAD                BRANCH IF NOT READY
+         AP    PPAGECTR(2),=PL1'1'     ADD 1 PAGE COUNTER
+         MVC   OPAGE(4),=X'40202120'   EDIT PATTERN
+         ED    OPAGE(4),PPAGECTR       CONVERT TO PRINTABLE EBCDIC
+*
+         XPRNT HEADER,133           PRINTS THE TITLE AND PAGE NUM
+         XPRNT SUBHEAD,133          PRINTS SUB HEAD TITLE
+         XPRNT HEADER1,133          PRINTS TABLE NAMES
+         XPRNT HEADER2,133          MORE TABLE NAMES
+         XPRNT HYPHENS,133          PRINT LINES
+*
+         SR    2,2                  ZERO OUT THE LINE COUNTER
+*
+SKIPHEAD XPRNT EMPLOYEE,133         PRINTS EMPLOYEE DETAILS
+         LA    2,1(,2)              ADD 1 TO LINE COUNTER
+*
+         XREAD RECORD,80            READ THE NEXT EMPLOYEE
+*
+         BC    B'1111',LOOP1  BRANCH TO TOP OF LOOP1 TO CHECK EOF
+*
+ENDLOOP1 DS    0H
+*
+* EMPLOYE COUNT
+         SRP   PEMPCTR(3),2,0          SHIFT 2 LEFT
+         MVC   OTEMPCT(3),=X'202020'   EDIT PATTERN
+         ED    OTEMPCT(3),PEMPCTR      CONVERT TO PRINTABLE EBCDIC
+*
+* TOTAL GROSS PAY AND AVERAGE
+         LA    1,OTGPAY+0              SETS BYTE FOR $
+         SRP   PTGRPAY(7),5,0          SHIFT LEFT 5
+*
+         MVC   OTGPAY(11),=X'402020206B2021204B2020'
+*
+         ED    OTGPAY(11),PTGRPAY      CONVERT TO PRINTABLE EBCDIC
+         MVI   0(1),C'$'               INSERT A $
+*
+         LA    1,OGPAVG+4              SETS BYTE FOR $
+         ZAP   PCALC(10),PTGRPAY(7)    INITIALIZE TOTAL GPAY INTO PCALC
+         DP    PCALC(10),PEMPCTR(3)    TOTAL GPAY / NUM EMPLOYESS
+*
+         MVC   OGPAVG(13),=X'4020202020206B2021204B20202020'
+*
+         ED    OGPAVG(13),PCALC        CONVERT TO PRINTABLE EBCDIC
+         MVI   0(1),C'$'               INSERT A $
+*
+* TOTAL FEDERAL WITHOLDING AND AVERAGE
+         LA    1,OTFWH+1               SET BYTE FOR $
+         SRP   PTFWITH(7),5,0          SHIFT 5 LEFT
+*
+         MVC   OTFWH(11),=X'402020206B2021204B2020'     EDIT PATTERN
+*
+         ED    OTFWH(11),PTFWITH       CONVERT TO PRINTABLE EBCDIC
+         MVI   0(1),C'$'               INSERT A $
+*
+         LA    1,OFEDAVG+0             SETS BYTE FOR $
+         ZAP   PCALC(10),PTFWITH(7)    INITIALIZE TOT FEDERAL IN PCALC
+         DP    PCALC(10),PEMPCTR(3)    TOTAL FED / NUM EMPLOYEES
+*
+         MVC   OFEDAVG(11),=X'20202020202020204B2020'
+*
+         ED    OFEDAVG(11),PCALC       CONVERT TO PRINTABLE EBCDIC
+         MVI   0(1),C'$'               INSERT A $
+*
+* TOTAL STATE WITHOLDING AND AVERAGE
+         LA    1,OTSTWH+0              SETS BYTE FOR $
+         SRP   PTSWITH(7),5,0          SHIFT LEFT 5
+*
+         MVC   OTSTWH(11),=X'4020206B2020214B202020'   EDIT PATTERN
+*
+         ED    OTSTWH(11),PTSWITH      CONVERT TO PRINTABLE EBCDIC
+         MVI   0(1),C'$'               INSERT A $
+*
+         LA    1,OSTAVG+6              SETS BYTE FOR $
+         ZAP   PCALC(10),PTSWITH(7)    INITIALIZE TOTAL STATE IN PCALC
+         DP    PCALC(10),PEMPCTR(3)    TOTAL ST. / NUM EMPLOYEES
+*
+         MVC   OSTAVG(11),=X'40202020206B2020214B202020'
+*
+         ED    OSTAVG(11),PCALC        CONVERT TO PRINTABLE EBCDIC
+         MVI   0(1),C'$'               INSERT A $
+*
+* TOTAL NET PAY AND AVERAGE
+         LA    1,OTNP+0                 SETS BYTE FOR $
+         SRP   PTNETPAY(7),5,0          SHIFT LEFT 5
+*
+         MVC   OTNP(11),=X'402020206B2021204B2020'    EDIT PATTERN
+*
+         ED    OTNP(11),PTNETPAY        CONVERT TO PRINTABLE EBCDIC
+         MVI   0(1),C'$'                INSERT A $
+*
+         LA    1,ONETAVG+0
+         ZAP   PCALC(10),PTNETPAY(7)    INITIALIZE TOTAL NP INTO PCALC
+         DP    PCALC(10),PEMPCTR(3)     TOTAL NET PAY / NUM EMPLOYEES
+*
+         MVC   ONETAVG(11),=X'2020206B2021204B2020'
+*
+         ED    ONETAVG(11),PCALC        CONVERT TO PRINTABLE EBCDIC
+         MVI   0(1),C'$'                INSERT A $
+*
+         XPRNT HEADER,133           PRINTS THE TITLE AND PAGE NUM
+         XPRNT SUBHEAD,133          PRINTS SUB HEAD TITLE
+         XPRNT LINE,133             PRINTS 'TOTAL'
+         XPRNT TOTALS,133           PRINTS NUMBER OF EMPLOYEES
+         XPRNT TOTALS1,133          PRINTS TOTAL GPAY AND AVERAGE
+         XPRNT TOTALS2,133          PRINTS TOTAL FED AND AVERAGE
+         XPRNT TOTALS3,133          PRINTS TOTAL ST AND AVERAGE
+         XPRNT TOTALS4,133          PRINTS NET PAY AND AVERAGE
+*
+* STANDARD EXIT LINKAGE WITH RC OF 0
+*
+         SR    15,15        R15 = RETURN CODE OF 0
+         L     13,4(,13)    POINT R13 TO CALLER'S SAVE AREA
+         L     14,12(,13)   RESTORE REGISTER 14
+         LM    0,12,20(13)  RESTORE R0 THRU R12
+*
+         BR    14           RETURN TO CALLER
+*
+         LTORG
+*
+SAVEREGS DS    18F          PROGRAM'S REGISTER SAVE AREA
+*
+* PACKED DECIMAL VARIABLES
+*
+PFWHPCT  DC    PL4'0'         PACKED FEDERAL WITHHOLDING PERCENTAGE
+PSWHPCT  DC    PL4'0'         PACKED STATE WITHHOLDING PERCENTAGE
+NUM1     DC    ZL5'3250'
+*
+PEMPCTR  DC    PL3'0'         PACKED EMPLOYEE COUNTER (MAX 999)
+PPAGECTR DC    PL2'0'         PACKED PAGE COUNTER (MAX 999)
+*
+PEMPID   DC    PL5'0'         PACKED EMPLOYEE ID
+PHRPAY   DC    PL3'0'         PACKED EMPLOYEE HOURLY PAY RATE
+PHOURS   DC    PL3'0'         PACKED EMPLOYEE HOURS WORKED
+PDEDUCT  DC    PL3'0'         PACKED EMPLOYEE DEDUCTION
+PBONUS   DC    PL3'0'         PACKED EMPLOYEE BONUS
+PEMPGPAY DC    PL6'0'         PACKED CALCULATED EMPLOYEE GROSS PAY
+PFEDWITH DC    PL6'0'         PACKED CALCULATED FEDERAL WITHHOLDING
+PSTWITH  DC    PL6'0'         PACKED CALCULATED STATE WITHOLDING
+PEMPNPAY DC    PL6'0'         PACKED CALCULATED EMPLOYEE NET PAY
+*
+PCALC    DC    PL10'0'        USED TO CALCULATE WITHHOLDING AND AVGS
+*
+PTGRPAY  DC    PL7'0'         PACKED TOTAL GROSS EMPLOYEE PAY
+PTFWITH  DC    PL7'0'         PACKED TOTAL WITHHOLDING
+PTSWITH  DC    PL7'0'
+PTNETPAY DC    PL7'0'         PACKED TOTAL NET EMPLOYEE PAY
+*
+RECORD   DS    0H
+IEMPID   DS    ZL8            PACKS INTO 5 BYTES (8/2 = 4 + 1 = 5)
+IHRPAY   DS    ZL5            PACKS INTO 3 BYTES (5/2 = 2 + 1 = 3)
+IHOURS   DS    ZL5            PACKS INTO 3 BYTES
+IDEDUCT  DS    ZL5            PACKS INTO 3 BYTES
+IBONUS   DS    ZL5            PACKS INTO 3 BYTES
+IEMPNME  DS    CL25
+         DS    CL27
+*
+* OUTPUT FOR EACH EMPLOYEE DETAILS
+*
+EMPLOYEE DC    C'0'
+OEMPID   DS    CL8
+         DC    4C' '
+OEMPNAME DS    CL25
+         DC    4C' '
+OHRPAY   DS    CL5
+         DS    4C' '
+OHOURS   DS    CL5
+         DC    4C' '
+OGPAY    DS    CL15
+         DC    4C' '
+OFEDWH   DS    CL15
+         DC    4C' '
+OSTWH    DS    CL15
+         DC    4C' '
+ONETPAY  DS    CL15
+         DC    2C' '
+*
+* PRINTS OUT THE TITLE AND PAGE COUNTER
+*
+HEADER   DC    C'0'
+         DC    40C' '
+         DC    C'STATE OF ILLINOIS NATIONAL BANK'
+         DC    50C' '
+         DC    C'PAGE: '
+OPAGE    DS    CL4
+         DC    39C' '
+*
+* PRINTS OUT SUB HEADER TITLE
+*
+SUBHEAD  DC    C'0'
+         DC    38C' '
+         DC    C'SEMI-MONTHLY EMPLOYEE PAYROLL REPORT'
+         DC    95C' '
+*
+* PRINTS OUT COLUMN NAMES
+*
+HEADER1  DC    C'0'
+         DC    C'EMPLOYEE'
+         DC    4C' '
+         DC    C'EMPLOYEE'
+         DC    21C' '
+         DC    C'HOURLY'
+         DC    2C' '
+         DC    C'HOURS'
+         DC    8C' '
+         DC    C'EMPLOYEE'
+         DC    4C' '
+         DC    C'EMPLOYEE FEDERAL'
+         DC    4C' '
+         DC    C'EMPLOYEE STATE'
+         DC    8C' '
+         DC    C'EMPLOYEE'
+         DC    82C' '
+*
+* PRINTS MORE COLUMN NAMES
+*
+HEADER2  DC    C'0'
+         DC    C'ID'
+         DC    10C' '
+         DC    C'NAME'
+         DC    25C' '
+         DC    C'PAY'
+         DC    5C' '
+         DC    C'WORKED'
+         DC    7C' '
+         DC    C'GROSS PAY'
+         DC    9C' '
+         DC    C'WITHOLDING'
+         DC    8C' '
+         DC    C'WITHOLDING'
+         DC    8C' '
+         DC    C'NET PAY'
+         DC    61C' '
+*
+* OUTPUT FOR HYPHENS
+*
+HYPHENS  DC    C'0'
+         DC    C'---------'
+         DC    3C' '
+         DC    C'-------------------------'
+         DC    4C' '
+         DC    C'-------'
+         DC    1C' '
+         DC    C'-------'
+         DC    2C' '
+         DC    C'---------------'
+         DC    3C' '
+         DC    C'----------------'
+         DC    3C' '
+         DC    C'----------------'
+         DC    3C' '
+         DC    C'----------------'
+         DC    114C' '
+*
+* OUTPUT FOR THE TOTALS
+*
+TOTALS   DC    C'0'
+         DC    5C' '
+         DC    C'NUMBER OF EMPLOYEES: '
+         DC    10C' '
+OTEMPCT  DS    CL3
+         DC    115C' '
+*
+* OUTPUT FOR TOTAL GROSS PAY AND AVERAGE
+*
+TOTALS1  DC    C'0'
+         DC    9C' '
+         DC    C'TOTAL GROSS PAY:      '
+OTGPAY   DS    CL10
+         DC    19C' '
+         DC    C'AVERAGE GROSS PAY:    '
+OGPAVG   DS    CL13
+         DC    82C' '
+*
+* OUTPUT FOR TOTAL FEDERAL AND AVERAGE
+*
+TOTALS2  DC    C'0'
+         DC    C'TOTAL FEDERAL WITHOLDING:       '
+OTFWH    DS    CL10
+         DC    10C' '
+         DC    C'AVERAGE FEDERAL WITHOLDING:          '
+OFEDAVG  DS    CL11
+         DC    102C' '
+*
+* OUTPUT FOR TOTAL STATE AND AVERAGE
+*
+TOTALS3  DC    C'0'
+         DC    2C' '
+         DC    C'TOTAL STATE WITHOLDING:       '
+OTSTWH   DS    CL9
+         DC    12C' '
+         DC    C'AVERAGE STATE WITHOLDING:     '
+OSTAVG   DS    CL12
+         DC    98C' '
+*
+* OUTPUT FOR TOTAL NET PAY AND AVERAGE
+*
+TOTALS4  DC    C'0'
+         DC    11C' '
+         DC    C'TOTAL NET PAY:     '
+OTNP     DS    CL10
+         DC    23C' '
+         DC    C'AVERAGE NET PAY:        '
+ONETAVG  DS    CL15
+         DC    74C' '
+*
+* OUTPUT FOR TITLE
+*
+LINE     DC    C'0'
+         DC    52C' '
+         DC    C'TOTALS'
+         DC    81C' '
+*
+         END   PAYROLL2       END PROGRAM
+*
+*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT
+ 
+                                                                                                               PAGE    1
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+                                      1 *******************************************************************
+                                      2 *                                                                 *
+                                      3 *  CSCI 360-PE1           ASSIGNMENT 9                 SPRING 23  *
+                                      4 *                        PACKED DECIMAL                           *
+                                      5 *                                                                 *
+                                      6 *  DEVELOPER NAME: KUSH GANDHI                                    *
+                                      7 *        DUE DATE: 4/21/23                                        *
+                                      8 *                                                                 *
+                                      9 *    PROGRAM NAME: PACKED DECIMAL                                 *
+                                     10 *                                                                 *
+                                     11 *    FUNCTION: CREATING A PROPER REPORT USING PACKED DECIMAL      *
+                                     12 *******************************************************************
+                                     13 *
+000000                               14 PAYROLL2 CSECT
+                                     15 *
+                                     16 *  STANDARD ENTRY LINKAGE WITH R12 AS BASE REGISTER
+                                     17 *
+000000 90EC D00C            0000C    18          STM   14,12,12(13)  SAVE REGS IN CALLER'S SAVE AREA
+000004 18CF                          19          LR    12,15         COPY CSECT ADDR INTO R12
+000000                               20          USING PAYROLL2,12   ESTABLISH R12 AS THE BASE REG
+000006 41E0 C374            00374    21          LA    14,SAVEREGS   R14 POINTS TO THIS CSECT'S SAVE AREA
+00000A 50E0 D008            00008    22          ST    14,8(,13)     STORE ADDR OF THIS CSECT'S SAVE AREA
+00000E 50D0 E004            00004    23          ST    13,4(,14)     STORE ADDR OF CALLER'S SAVE AREA
+000012 18DE                          24          LR    13,14         POINT R13 AT THIS CSECT'S SAVE AREA
+                                     25 *
+000014 4120 0063            00063    26          LA    2,99           LINE COUNTER
+                                     27 *
+000018 E000 C41E 0050 0041E          28          XREAD RECORD,80      READS STATE PERCENT
+                                     29 *
+00001E F224 C3BC C41E 003BC 0041E    30          PACK  PFWHPCT(3),RECORD(5) PACK AND STORE FED PERCENT
+000024 F224 C3C0 C3C4 003C0 003C4    31          PACK  PSWHPCT(3),NUM1(5)   PACK AND STORE ST PERCENT
+                                     32 *
+00002A E000 C41E 0050 0041E          33          XREAD RECORD,80      READS EMPLOYEE DATA
+                                     34 *
+000030 4740 C1AA            001AA    35 LOOP1    BC   B'0100',ENDLOOP1 BRANCH TO ENDLOOP1 IF EOF
+                                     36 *
+000034 FA20 C3C9 C31C 003C9 0031C    37          AP    PEMPCTR(3),=PL1'1'    ADD 1 TO EMPLOYEE COUNTER
+00003A 9240 C46F      0046F          38          MVI   EMPLOYEE+1,C' '
+00003E D282 C470 C46F 00470 0046F    39          MVC   EMPLOYEE+2(131),EMPLOYEE+1
+                                     40 *
+                                     41 *
+                                     42 * PACKS AND STORES EMPLOYEE ID
+000044 F237 C3CE C41E 003CE 0041E    43          PACK  PEMPID(4),IEMPID(8)   PACK AND STORE EMPLOYEE ID
+00004A D207 C46F C2F0 0046F 002F0    44          MVC   OEMPID(8),=X'402020602020202020202020'  EDIT PATTERN
+000050 DE07 C46F C3CE 0046F 003CE    45          ED    OEMPID(8),PEMPID      CONVERT TO PRINTABLE EBCDIC
+                                     46 *
+                                     47 *
+                                     48 * READS EMPLOYEE NAME BY MVC
+000056 D218 C47B C43A 0047B 0043A    49          MVC   OEMPNAME(25),IEMPNME  READS NAME AND MOVE TO PRINTLINE
+                                     50 *
+                                     51 *
+                                     52 * GET HOURLY PAY AND PACK IT
+                                                                                                               PAGE    2
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+00005C 4110 C499            00499    53          LA    1,OHRPAY+1                     SETS BYTE
+000060 F224 C3D3 C426 003D3 00426    54          PACK  PHRPAY(3),IHRPAY(5)            PACK HOURLY PAY
+000066 D206 C498 C2E8 00498 002E8    55          MVC   OHRPAY(7),=X'402021204B202020' EDIT PATTERN
+00006C DE06 C498 C3D3 00498 003D3    56          ED    OHRPAY(7),PHRPAY             CONVERT TO PRINTABLE EBCDIC
+000072 925B 1000      00000          57          MVI   0(1),C'$'                      INSERT A $
+                                     58 *
+                                     59 *
+                                     60 * GET HOURS WORKED AND PACK IT
+000076 F224 C3D6 C42B 003D6 0042B    61          PACK  PHOURS(3),IHOURS(5)          PACK HOURS
+00007C D206 C4A1 C31D 004A1 0031D    62          MVC   OHOURS(7),=X'402021204B2020'   EDIT PATTERN
+000082 DE06 C4A1 C3D6 004A1 003D6    63          ED    OHOURS(7),PHOURS             CONVERT TO PRINTABLE EBCDIC
+                                     64 *
+                                     65 *
+                                     66 * GET DEDUCTION AMT AND PACK IT
+000088 F224 C3D9 C430 003D9 00430    67          PACK  PDEDUCT(3),IDEDUCT(5)
+                                     68 *
+                                     69 *
+                                     70 * GET BONUS AMT AND PACK IT
+00008E F224 C3DC C435 003DC 00435    71          PACK  PBONUS(3),IBONUS(5)
+                                     72 *
+                                     73 *
+                                     74 * GROSS PAY CALCULATIONS
+000094 4110 C4B0            004B0    75          LA    1,OGPAY+6               SETS BYTE FOR $
+000098 F852 C3DF C3D3 003DF 003D3    76          ZAP   PEMPGPAY(6),PHRPAY(3)   INITIALIZE GROSS PAY WITH HR PAY
+00009E FC52 C3DF C3D6 003DF 003D6    77          MP    PEMPGPAY(6),PHOURS(3)   HOURLY PAY * HOURS WORKED
+0000A4 F055 C3DF 003E 003DF 0003E    78          SRP   PEMPGPAY(6),64-2,5      ROUND 2 DECIMAL PLACES
+0000AA FB52 C3DF C3D9 003DF 003D9    79          SP    PEMPGPAY(6),PDEDUCT(3)  GROSS PAY - DEDUCTIONS
+0000B0 FA52 C3DF C3DC 003DF 003DC    80          AP    PEMPGPAY(6),PBONUS(3)   GROSS PAY + BONUS
+                                     81 *
+0000B6 D20E C4AA C324 004AA 00324    82          MVC   OGPAY(15),=X'402020206B2020206B2020204B2020'
+                                     83 *
+0000BC DE0E C4AA C3DF 004AA 003DF    84          ED    OGPAY(15),PEMPGPAY      CONVERT TO PRINTABLE EBCDIC
+0000C2 FA65 C401 C3DF 00401 003DF    85          AP    PTGRPAY(7),PEMPGPAY(6)  ADD TO TOTAL
+0000C8 925B 1000      00000          86          MVI   0(1),C'$'               INSERT A $
+                                     87 *
+                                     88 *
+                                     89 * CALCULATE EMPLOYEE FEDERAL WITHOLDING
+0000CC 4110 C4C1            004C1    90          LA    1,OFEDWH+4              SETS BYTE FOR $
+0000D0 F895 C3F7 C3DF 003F7 003DF    91          ZAP   PCALC(10),PEMPGPAY(6)   INITIALIZE THE PCALC FOR G-PAY
+0000D6 FC92 C3F7 C3BC 003F7 003BC    92          MP    PCALC(10),PFWHPCT(3)    GROSS PAY * FEDERAL PERCENT
+0000DC F095 C3F7 003C 003F7 0003C    93          SRP   PCALC(10),64-4,5        ROUND 4 DECIMAL PLACES
+0000E2 F859 C3E5 C3F7 003E5 003F7    94          ZAP   PFEDWITH(6),PCALC(10)   COPY AMT OVER TO PFEDWITH
+                                     95 *
+0000E8 D20E C4BD C324 004BD 00324    96          MVC   OFEDWH(15),=X'402020206B2020206B2020204B2020'
+                                     97 *
+0000EE DE0E C4BD C3E5 004BD 003E5    98          ED    OFEDWH(15),PFEDWITH     CONVERT TO PRINTABLE EBCDIC
+0000F4 FA65 C408 C3E5 00408 003E5    99          AP    PTFWITH(7),PFEDWITH(6)  ADD TO TOTAL
+0000FA 925B 1000      00000         100          MVI   0(1),C'$'               INSERT A $
+                                    101 *
+                                    102 *
+                                    103 * CALCULATE EMPLOYEE STATE WITHOLDING
+0000FE 4110 C4D6            004D6   104          LA    1,OSTWH+6               SETS BYTE FOR $
+000102 F895 C3F7 C3DF 003F7 003DF   105          ZAP   PCALC(10),PEMPGPAY(6)   INITIALIZE THE PCALC FOR G-PAY
+000108 FC92 C3F7 C3C0 003F7 003C0   106          MP    PCALC(10),PSWHPCT(3)    GROSS PAY * STATE PERCENT
+00010E F095 C3F7 003C 003F7 0003C   107          SRP   PCALC(10),64-4,5        ROUND 4 DECIMAL PLACES
+000114 F859 C3EB C3F7 003EB 003F7   108          ZAP   PSTWITH(6),PCALC(10)    COPY AMT OVER TO PSEDWITH
+                                    109 *
+                                                                                                               PAGE    3
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+00011A D20D C4D0 C304 004D0 00304   110          MVC   OSTWH(14),=X'4020206B2020206B2020204B2020'
+                                    111 *
+000120 DE0D C4D0 C3EB 004D0 003EB   112          ED    OSTWH(14),PSTWITH       CONVERT TO PRINTABLE EBCDIC
+000126 FA65 C40F C3EB 0040F 003EB   113          AP    PTSWITH(7),PSTWITH(6)   ADD TO TOTAL
+00012C 925B 1000      00000         114          MVI   0(1),C'$'               INSERT A $
+                                    115 *
+                                    116 *
+                                    117 * CALCULATE EMPLOYE NET PAY
+000130 4110 C4E9            004E9   118          LA    1,ONETPAY+6               SETS BYTE FOR $ OUTPUT
+000134 FB55 C3DF C3E5 003DF 003E5   119          SP    PEMPGPAY(6),PFEDWITH(6)   GROSS PAY - FEDERAL
+00013A FB55 C3DF C3EB 003DF 003EB   120          SP    PEMPGPAY(6),PSTWITH(6)    GROSS PAY - STATE
+000140 F855 C3F1 C3DF 003F1 003DF   121          ZAP   PEMPNPAY(6),PEMPGPAY(6)   INITIALIZE INTO NETPAY
+                                    122 *
+000146 D20E C4E3 C324 004E3 00324   123          MVC   ONETPAY(15),=X'402020206B2020206B2020204B2020'
+                                    124 *
+00014C DE0E C4E3 C3F1 004E3 003F1   125          ED    ONETPAY(15),PEMPNPAY      CONVERT TO PRINTABLE EBCDIC
+000152 FA65 C416 C3F1 00416 003F1   126          AP    PTNETPAY(7),PEMPNPAY(6)   ADD TO TOTAL
+000158 925B 1000      00000         127          MVI   0(1),C'$'                 INSERT A $
+                                    128 *
+                                    129 *
+                                    130 * PRINTS OUT PAGE COUNTER AND FORMATING
+00015C 5920 C2FC            002FC   131          C     2,=F'17'                COMPARE EVERY 17 DETAIL LINES
+000160 4740 C196            00196   132          BL    SKIPHEAD                BRANCH IF NOT READY
+000164 FA10 C3CC C31C 003CC 0031C   133          AP    PPAGECTR(2),=PL1'1'     ADD 1 PAGE COUNTER
+00016A D203 C574 C300 00574 00300   134          MVC   OPAGE(4),=X'40202120'   EDIT PATTERN
+000170 DE03 C574 C3CC 00574 003CC   135          ED    OPAGE(4),PPAGECTR       CONVERT TO PRINTABLE EBCDIC
+                                    136 *
+000176 E020 C4F4 0085 004F4         137          XPRNT HEADER,133           PRINTS THE TITLE AND PAGE NUM
+00017C E020 C59F 0085 0059F         138          XPRNT SUBHEAD,133          PRINTS SUB HEAD TITLE
+000182 E020 C649 0085 00649         139          XPRNT HEADER1,133          PRINTS TABLE NAMES
+000188 E020 C718 0085 00718         140          XPRNT HEADER2,133          MORE TABLE NAMES
+00018E E020 C7D1 0085 007D1         141          XPRNT HYPHENS,133          PRINT LINES
+                                    142 *
+000194 1B22                         143          SR    2,2                  ZERO OUT THE LINE COUNTER
+                                    144 *
+000196 E020 C46E 0085 0046E         145 SKIPHEAD XPRNT EMPLOYEE,133         PRINTS EMPLOYEE DETAILS
+00019C 4120 2001            00001   146          LA    2,1(,2)              ADD 1 TO LINE COUNTER
+                                    147 *
+0001A0 E000 C41E 0050 0041E         148          XREAD RECORD,80            READ THE NEXT EMPLOYEE
+                                    149 *
+0001A6 47F0 C030            00030   150          BC    B'1111',LOOP1  BRANCH TO TOP OF LOOP1 TO CHECK EOF
+                                    151 *
+0001AA                              152 ENDLOOP1 DS    0H
+                                    153 *
+                                    154 * EMPLOYE COUNT
+0001AA F020 C3C9 0002 003C9 00002   155          SRP   PEMPCTR(3),2,0          SHIFT 2 LEFT
+0001B0 D202 C8EB C333 008EB 00333   156          MVC   OTEMPCT(3),=X'202020'   EDIT PATTERN
+0001B6 DE02 C8EB C3C9 008EB 003C9   157          ED    OTEMPCT(3),PEMPCTR      CONVERT TO PRINTABLE EBCDIC
+                                    158 *
+                                    159 * TOTAL GROSS PAY AND AVERAGE
+0001BC 4110 C981            00981   160          LA    1,OTGPAY+0              SETS BYTE FOR $
+0001C0 F060 C401 0005 00401 00005   161          SRP   PTGRPAY(7),5,0          SHIFT LEFT 5
+                                    162 *
+0001C6 D20A C981 C336 00981 00336   163          MVC   OTGPAY(11),=X'402020206B2021204B2020'
+                                    164 *
+0001CC DE0A C981 C401 00981 00401   165          ED    OTGPAY(11),PTGRPAY      CONVERT TO PRINTABLE EBCDIC
+0001D2 925B 1000      00000         166          MVI   0(1),C'$'               INSERT A $
+                                                                                                               PAGE    4
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+                                    167 *
+0001D6 4110 C9B8            009B8   168          LA    1,OGPAVG+4              SETS BYTE FOR $
+0001DA F896 C3F7 C401 003F7 00401   169          ZAP   PCALC(10),PTGRPAY(7)    INITIALIZE TOTAL GPAY INTO PCALC
+0001E0 FD92 C3F7 C3C9 003F7 003C9   170          DP    PCALC(10),PEMPCTR(3)    TOTAL GPAY / NUM EMPLOYESS
+                                    171 *
+0001E6 D20C C9B4 C341 009B4 00341   172          MVC   OGPAVG(13),=X'4020202020206B2021204B20202020'
+                                    173 *
+0001EC DE0C C9B4 C3F7 009B4 003F7   174          ED    OGPAVG(13),PCALC        CONVERT TO PRINTABLE EBCDIC
+0001F2 925B 1000      00000         175          MVI   0(1),C'$'               INSERT A $
+                                    176 *
+                                    177 * TOTAL FEDERAL WITHOLDING AND AVERAGE
+0001F6 4110 CA35            00A35   178          LA    1,OTFWH+1               SET BYTE FOR $
+0001FA F060 C408 0005 00408 00005   179          SRP   PTFWITH(7),5,0          SHIFT 5 LEFT
+                                    180 *
+000200 D20A CA34 C336 00A34 00336   181          MVC   OTFWH(11),=X'402020206B2021204B2020'     EDIT PATTERN
+                                    182 *
+000206 DE0A CA34 C408 00A34 00408   183          ED    OTFWH(11),PTFWITH       CONVERT TO PRINTABLE EBCDIC
+00020C 925B 1000      00000         184          MVI   0(1),C'$'               INSERT A $
+                                    185 *
+000210 4110 CA6D            00A6D   186          LA    1,OFEDAVG+0             SETS BYTE FOR $
+000214 F896 C3F7 C408 003F7 00408   187          ZAP   PCALC(10),PTFWITH(7)    INITIALIZE TOT FEDERAL IN PCALC
+00021A FD92 C3F7 C3C9 003F7 003C9   188          DP    PCALC(10),PEMPCTR(3)    TOTAL FED / NUM EMPLOYEES
+                                    189 *
+000220 D20A CA6D C350 00A6D 00350   190          MVC   OFEDAVG(11),=X'20202020202020204B2020'
+                                    191 *
+000226 DE0A CA6D C3F7 00A6D 003F7   192          ED    OFEDAVG(11),PCALC       CONVERT TO PRINTABLE EBCDIC
+00022C 925B 1000      00000         193          MVI   0(1),C'$'               INSERT A $
+                                    194 *
+                                    195 * TOTAL STATE WITHOLDING AND AVERAGE
+000230 4110 CAFF            00AFF   196          LA    1,OTSTWH+0              SETS BYTE FOR $
+000234 F060 C40F 0005 0040F 00005   197          SRP   PTSWITH(7),5,0          SHIFT LEFT 5
+                                    198 *
+00023A D20A CAFF C35B 00AFF 0035B   199          MVC   OTSTWH(11),=X'4020206B2020214B202020'   EDIT PATTERN
+                                    200 *
+000240 DE0A CAFF C40F 00AFF 0040F   201          ED    OTSTWH(11),PTSWITH      CONVERT TO PRINTABLE EBCDIC
+000246 925B 1000      00000         202          MVI   0(1),C'$'               INSERT A $
+                                    203 *
+00024A 4110 CB38            00B38   204          LA    1,OSTAVG+6              SETS BYTE FOR $
+00024E F896 C3F7 C40F 003F7 0040F   205          ZAP   PCALC(10),PTSWITH(7)    INITIALIZE TOTAL STATE IN PCALC
+000254 FD92 C3F7 C3C9 003F7 003C9   206          DP    PCALC(10),PEMPCTR(3)    TOTAL ST. / NUM EMPLOYEES
+                                    207 *
+00025A D20A CB32 C366 00B32 00366   208          MVC   OSTAVG(11),=X'40202020206B2020214B202020'
+                                    209 *
+000260 DE0A CB32 C3F7 00B32 003F7   210          ED    OSTAVG(11),PCALC        CONVERT TO PRINTABLE EBCDIC
+000266 925B 1000      00000         211          MVI   0(1),C'$'               INSERT A $
+                                    212 *
+                                    213 * TOTAL NET PAY AND AVERAGE
+00026A 4110 CBBF            00BBF   214          LA    1,OTNP+0                 SETS BYTE FOR $
+00026E F060 C416 0005 00416 00005   215          SRP   PTNETPAY(7),5,0          SHIFT LEFT 5
+                                    216 *
+000274 D20A CBBF C336 00BBF 00336   217          MVC   OTNP(11),=X'402020206B2021204B2020'    EDIT PATTERN
+                                    218 *
+00027A DE0A CBBF C416 00BBF 00416   219          ED    OTNP(11),PTNETPAY        CONVERT TO PRINTABLE EBCDIC
+000280 925B 1000      00000         220          MVI   0(1),C'$'                INSERT A $
+                                    221 *
+000284 4110 CBF8            00BF8   222          LA    1,ONETAVG+0
+000288 F896 C3F7 C416 003F7 00416   223          ZAP   PCALC(10),PTNETPAY(7)    INITIALIZE TOTAL NP INTO PCALC
+                                                                                                               PAGE    5
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+00028E FD92 C3F7 C3C9 003F7 003C9   224          DP    PCALC(10),PEMPCTR(3)     TOTAL NET PAY / NUM EMPLOYEES
+                                    225 *
+000294 D20A CBF8 C312 00BF8 00312   226          MVC   ONETAVG(11),=X'2020206B2021204B2020'
+                                    227 *
+00029A DE0A CBF8 C3F7 00BF8 003F7   228          ED    ONETAVG(11),PCALC        CONVERT TO PRINTABLE EBCDIC
+0002A0 925B 1000      00000         229          MVI   0(1),C'$'                INSERT A $
+                                    230 *
+0002A4 E020 C4F4 0085 004F4         231          XPRNT HEADER,133           PRINTS THE TITLE AND PAGE NUM
+0002AA E020 C59F 0085 0059F         232          XPRNT SUBHEAD,133          PRINTS SUB HEAD TITLE
+0002B0 E020 CC51 0085 00C51         233          XPRNT LINE,133             PRINTS 'TOTAL'
+0002B6 E020 C8C6 0085 008C6         234          XPRNT TOTALS,133           PRINTS NUMBER OF EMPLOYEES
+0002BC E020 C961 0085 00961         235          XPRNT TOTALS1,133          PRINTS TOTAL GPAY AND AVERAGE
+0002C2 E020 CA13 0085 00A13         236          XPRNT TOTALS2,133          PRINTS TOTAL FED AND AVERAGE
+0002C8 E020 CADE 0085 00ADE         237          XPRNT TOTALS3,133          PRINTS TOTAL ST AND AVERAGE
+0002CE E020 CBA0 0085 00BA0         238          XPRNT TOTALS4,133          PRINTS NET PAY AND AVERAGE
+                                    239 *
+                                    240 * STANDARD EXIT LINKAGE WITH RC OF 0
+                                    241 *
+0002D4 1BFF                         242          SR    15,15        R15 = RETURN CODE OF 0
+0002D6 58D0 D004            00004   243          L     13,4(,13)    POINT R13 TO CALLER'S SAVE AREA
+0002DA 58E0 D00C            0000C   244          L     14,12(,13)   RESTORE REGISTER 14
+0002DE 980C D014            00014   245          LM    0,12,20(13)  RESTORE R0 THRU R12
+                                    246 *
+0002E2 07FE                         247          BR    14           RETURN TO CALLER
+                                    248 *
+                                    249          LTORG
+0002E8 402021204B202020             250                =X'402021204B202020'
+0002F0 4020206020202020             251                =X'402020602020202020202020'
+0002FC 00000011                     252                =F'17'
+000300 40202120                     253                =X'40202120'
+000304 4020206B2020206B             254                =X'4020206B2020206B2020204B2020'
+000312 2020206B2021204B             255                =X'2020206B2021204B2020'
+00031C 1C                           256                =PL1'1'
+00031D 402021204B2020               257                =X'402021204B2020'
+000324 402020206B202020             258                =X'402020206B2020206B2020204B2020'
+000333 202020                       259                =X'202020'
+000336 402020206B202120             260                =X'402020206B2021204B2020'
+000341 4020202020206B20             261                =X'4020202020206B2021204B20202020'
+000350 2020202020202020             262                =X'20202020202020204B2020'
+00035B 4020206B2020214B             263                =X'4020206B2020214B202020'
+000366 40202020206B2020             264                =X'40202020206B2020214B202020'
+                                    265 *
+000374                              266 SAVEREGS DS    18F          PROGRAM'S REGISTER SAVE AREA
+                                    267 *
+                                    268 * PACKED DECIMAL VARIABLES
+                                    269 *
+0003BC 0000000C                     270 PFWHPCT  DC    PL4'0'         PACKED FEDERAL WITHHOLDING PERCENTAGE
+0003C0 0000000C                     271 PSWHPCT  DC    PL4'0'         PACKED STATE WITHHOLDING PERCENTAGE
+0003C4 F0F3F2F5C0                   272 NUM1     DC    ZL5'3250'
+                                    273 *
+0003C9 00000C                       274 PEMPCTR  DC    PL3'0'         PACKED EMPLOYEE COUNTER (MAX 999)
+0003CC 000C                         275 PPAGECTR DC    PL2'0'         PACKED PAGE COUNTER (MAX 999)
+                                    276 *
+0003CE 000000000C                   277 PEMPID   DC    PL5'0'         PACKED EMPLOYEE ID
+0003D3 00000C                       278 PHRPAY   DC    PL3'0'         PACKED EMPLOYEE HOURLY PAY RATE
+0003D6 00000C                       279 PHOURS   DC    PL3'0'         PACKED EMPLOYEE HOURS WORKED
+0003D9 00000C                       280 PDEDUCT  DC    PL3'0'         PACKED EMPLOYEE DEDUCTION
+                                                                                                               PAGE    6
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+0003DC 00000C                       281 PBONUS   DC    PL3'0'         PACKED EMPLOYEE BONUS
+0003DF 00000000000C                 282 PEMPGPAY DC    PL6'0'         PACKED CALCULATED EMPLOYEE GROSS PAY
+0003E5 00000000000C                 283 PFEDWITH DC    PL6'0'         PACKED CALCULATED FEDERAL WITHHOLDING
+0003EB 00000000000C                 284 PSTWITH  DC    PL6'0'         PACKED CALCULATED STATE WITHOLDING
+0003F1 00000000000C                 285 PEMPNPAY DC    PL6'0'         PACKED CALCULATED EMPLOYEE NET PAY
+                                    286 *
+0003F7 0000000000000000             287 PCALC    DC    PL10'0'        USED TO CALCULATE WITHHOLDING AND AVGS
+                                    288 *
+000401 0000000000000C               289 PTGRPAY  DC    PL7'0'         PACKED TOTAL GROSS EMPLOYEE PAY
+000408 0000000000000C               290 PTFWITH  DC    PL7'0'         PACKED TOTAL WITHHOLDING
+00040F 0000000000000C               291 PTSWITH  DC    PL7'0'
+000416 0000000000000C               292 PTNETPAY DC    PL7'0'         PACKED TOTAL NET EMPLOYEE PAY
+                                    293 *
+00041E                              294 RECORD   DS    0H
+00041E                              295 IEMPID   DS    ZL8            PACKS INTO 5 BYTES (8/2 = 4 + 1 = 5)
+000426                              296 IHRPAY   DS    ZL5            PACKS INTO 3 BYTES (5/2 = 2 + 1 = 3)
+00042B                              297 IHOURS   DS    ZL5            PACKS INTO 3 BYTES
+000430                              298 IDEDUCT  DS    ZL5            PACKS INTO 3 BYTES
+000435                              299 IBONUS   DS    ZL5            PACKS INTO 3 BYTES
+00043A                              300 IEMPNME  DS    CL25
+000453                              301          DS    CL27
+                                    302 *
+                                    303 * OUTPUT FOR EACH EMPLOYEE DETAILS
+                                    304 *
+00046E F0                           305 EMPLOYEE DC    C'0'
+00046F                              306 OEMPID   DS    CL8
+000477 40404040                     307          DC    4C' '
+00047B                              308 OEMPNAME DS    CL25
+000494 40404040                     309          DC    4C' '
+000498                              310 OHRPAY   DS    CL5
+00049D                              311          DS    4C' '
+0004A1                              312 OHOURS   DS    CL5
+0004A6 40404040                     313          DC    4C' '
+0004AA                              314 OGPAY    DS    CL15
+0004B9 40404040                     315          DC    4C' '
+0004BD                              316 OFEDWH   DS    CL15
+0004CC 40404040                     317          DC    4C' '
+0004D0                              318 OSTWH    DS    CL15
+0004DF 40404040                     319          DC    4C' '
+0004E3                              320 ONETPAY  DS    CL15
+0004F2 4040                         321          DC    2C' '
+                                    322 *
+                                    323 * PRINTS OUT THE TITLE AND PAGE COUNTER
+                                    324 *
+0004F4 F0                           325 HEADER   DC    C'0'
+0004F5 4040404040404040             326          DC    40C' '
+00051D E2E3C1E3C540D6C6             327          DC    C'STATE OF ILLINOIS NATIONAL BANK'
+00053C 4040404040404040             328          DC    50C' '
+00056E D7C1C7C57A40                 329          DC    C'PAGE: '
+000574                              330 OPAGE    DS    CL4
+000578 4040404040404040             331          DC    39C' '
+                                    332 *
+                                    333 * PRINTS OUT SUB HEADER TITLE
+                                    334 *
+00059F F0                           335 SUBHEAD  DC    C'0'
+0005A0 4040404040404040             336          DC    38C' '
+0005C6 E2C5D4C960D4D6D5             337          DC    C'SEMI-MONTHLY EMPLOYEE PAYROLL REPORT'
+                                                                                                               PAGE    7
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+0005EA 4040404040404040             338          DC    95C' '
+                                    339 *
+                                    340 * PRINTS OUT COLUMN NAMES
+                                    341 *
+000649 F0                           342 HEADER1  DC    C'0'
+00064A C5D4D7D3D6E8C5C5             343          DC    C'EMPLOYEE'
+000652 40404040                     344          DC    4C' '
+000656 C5D4D7D3D6E8C5C5             345          DC    C'EMPLOYEE'
+00065E 4040404040404040             346          DC    21C' '
+000673 C8D6E4D9D3E8                 347          DC    C'HOURLY'
+000679 4040                         348          DC    2C' '
+00067B C8D6E4D9E2                   349          DC    C'HOURS'
+000680 4040404040404040             350          DC    8C' '
+000688 C5D4D7D3D6E8C5C5             351          DC    C'EMPLOYEE'
+000690 40404040                     352          DC    4C' '
+000694 C5D4D7D3D6E8C5C5             353          DC    C'EMPLOYEE FEDERAL'
+0006A4 40404040                     354          DC    4C' '
+0006A8 C5D4D7D3D6E8C5C5             355          DC    C'EMPLOYEE STATE'
+0006B6 4040404040404040             356          DC    8C' '
+0006BE C5D4D7D3D6E8C5C5             357          DC    C'EMPLOYEE'
+0006C6 4040404040404040             358          DC    82C' '
+                                    359 *
+                                    360 * PRINTS MORE COLUMN NAMES
+                                    361 *
+000718 F0                           362 HEADER2  DC    C'0'
+000719 C9C4                         363          DC    C'ID'
+00071B 4040404040404040             364          DC    10C' '
+000725 D5C1D4C5                     365          DC    C'NAME'
+000729 4040404040404040             366          DC    25C' '
+000742 D7C1E8                       367          DC    C'PAY'
+000745 4040404040                   368          DC    5C' '
+00074A E6D6D9D2C5C4                 369          DC    C'WORKED'
+000750 40404040404040               370          DC    7C' '
+000757 C7D9D6E2E240D7C1             371          DC    C'GROSS PAY'
+000760 4040404040404040             372          DC    9C' '
+000769 E6C9E3C8D6D3C4C9             373          DC    C'WITHOLDING'
+000773 4040404040404040             374          DC    8C' '
+00077B E6C9E3C8D6D3C4C9             375          DC    C'WITHOLDING'
+000785 4040404040404040             376          DC    8C' '
+00078D D5C5E340D7C1E8               377          DC    C'NET PAY'
+000794 4040404040404040             378          DC    61C' '
+                                    379 *
+                                    380 * OUTPUT FOR HYPHENS
+                                    381 *
+0007D1 F0                           382 HYPHENS  DC    C'0'
+0007D2 6060606060606060             383          DC    C'---------'
+0007DB 404040                       384          DC    3C' '
+0007DE 6060606060606060             385          DC    C'-------------------------'
+0007F7 40404040                     386          DC    4C' '
+0007FB 60606060606060               387          DC    C'-------'
+000802 40                           388          DC    1C' '
+000803 60606060606060               389          DC    C'-------'
+00080A 4040                         390          DC    2C' '
+00080C 6060606060606060             391          DC    C'---------------'
+00081B 404040                       392          DC    3C' '
+00081E 6060606060606060             393          DC    C'----------------'
+00082E 404040                       394          DC    3C' '
+                                                                                                               PAGE    8
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+000831 6060606060606060             395          DC    C'----------------'
+000841 404040                       396          DC    3C' '
+000844 6060606060606060             397          DC    C'----------------'
+000854 4040404040404040             398          DC    114C' '
+                                    399 *
+                                    400 * OUTPUT FOR THE TOTALS
+                                    401 *
+0008C6 F0                           402 TOTALS   DC    C'0'
+0008C7 4040404040                   403          DC    5C' '
+0008CC D5E4D4C2C5D940D6             404          DC    C'NUMBER OF EMPLOYEES: '
+0008E1 4040404040404040             405          DC    10C' '
+0008EB                              406 OTEMPCT  DS    CL3
+0008EE 4040404040404040             407          DC    115C' '
+                                    408 *
+                                    409 * OUTPUT FOR TOTAL GROSS PAY AND AVERAGE
+                                    410 *
+000961 F0                           411 TOTALS1  DC    C'0'
+000962 4040404040404040             412          DC    9C' '
+00096B E3D6E3C1D340C7D9             413          DC    C'TOTAL GROSS PAY:      '
+000981                              414 OTGPAY   DS    CL10
+00098B 4040404040404040             415          DC    19C' '
+00099E C1E5C5D9C1C7C540             416          DC    C'AVERAGE GROSS PAY:    '
+0009B4                              417 OGPAVG   DS    CL13
+0009C1 4040404040404040             418          DC    82C' '
+                                    419 *
+                                    420 * OUTPUT FOR TOTAL FEDERAL AND AVERAGE
+                                    421 *
+000A13 F0                           422 TOTALS2  DC    C'0'
+000A14 E3D6E3C1D340C6C5             423          DC    C'TOTAL FEDERAL WITHOLDING:       '
+000A34                              424 OTFWH    DS    CL10
+000A3E 4040404040404040             425          DC    10C' '
+000A48 C1E5C5D9C1C7C540             426          DC    C'AVERAGE FEDERAL WITHOLDING:          '
+000A6D                              427 OFEDAVG  DS    CL11
+000A78 4040404040404040             428          DC    102C' '
+                                    429 *
+                                    430 * OUTPUT FOR TOTAL STATE AND AVERAGE
+                                    431 *
+000ADE F0                           432 TOTALS3  DC    C'0'
+000ADF 4040                         433          DC    2C' '
+000AE1 E3D6E3C1D340E2E3             434          DC    C'TOTAL STATE WITHOLDING:       '
+000AFF                              435 OTSTWH   DS    CL9
+000B08 4040404040404040             436          DC    12C' '
+000B14 C1E5C5D9C1C7C540             437          DC    C'AVERAGE STATE WITHOLDING:     '
+000B32                              438 OSTAVG   DS    CL12
+000B3E 4040404040404040             439          DC    98C' '
+                                    440 *
+                                    441 * OUTPUT FOR TOTAL NET PAY AND AVERAGE
+                                    442 *
+000BA0 F0                           443 TOTALS4  DC    C'0'
+000BA1 4040404040404040             444          DC    11C' '
+000BAC E3D6E3C1D340D5C5             445          DC    C'TOTAL NET PAY:     '
+000BBF                              446 OTNP     DS    CL10
+000BC9 4040404040404040             447          DC    23C' '
+000BE0 C1E5C5D9C1C7C540             448          DC    C'AVERAGE NET PAY:        '
+000BF8                              449 ONETAVG  DS    CL15
+000C07 4040404040404040             450          DC    74C' '
+                                    451 *
+                                                                                                               PAGE    9
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+                                    452 * OUTPUT FOR TITLE
+                                    453 *
+000C51 F0                           454 LINE     DC    C'0'
+000C52 4040404040404040             455          DC    52C' '
+000C86 E3D6E3C1D3E2                 456          DC    C'TOTALS'
+000C8C 4040404040404040             457          DC    81C' '
+                                    458 *
+                                    459          END   PAYROLL2       END PROGRAM
+***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS
+*** DYNAMIC CORE AREA USED:  LOW:   21500 HIGH:    2092 LEAVING:  469976 FREE BYTES. AVERAGE:       51 BYTES/STMT ***
+*** ASSEMBLY TIME =    0.001 SECS,   460000 STATEMENTS/SEC ***
+*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***
+                                        STATE OF ILLINOIS NATIONAL BANK                                                  PAGE:    1
+                                      SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+EMPLOYEE    EMPLOYEE                     HOURLY  HOURS        EMPLOYEE    EMPLOYEE FEDERAL    EMPLOYEE STATE        EMPLOYEE
+ID          NAME                         PAY     WORKED       GROSS PAY         WITHOLDING        WITHOLDING        NET PAY
+---------   -------------------------    ------- -------  ---------------   ----------------   ----------------   ----------------
+ 23-4524    JOAN TOWER                    $15.25    80.50        $1,722.75        $    236.88          $  55.98           $  925.98
+ 34-5632    WOLFGANG AMADEUS MOZART       $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 40-3223    RICHARD STRAUSS               $10.29    80.00        $1,045.97        $    143.82          $  33.99           $  562.21
+ 64-6512    AMY BEACH                     $22.00    77.00        $2,579.16        $    354.63          $  83.82           $1,386.30
+ 65-6002    ETHEL SMYTH                   $23.75    28.25        $  710.64        $     97.71          $  23.09           $  381.97
+ 38-7032    PETER ILYICH TCHAIKOVSKY      $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 49-6627    ANTON BRUCKNER                $23.20    78.67        $2,044.58        $    281.13          $  66.44           $1,098.96
+ 23-4524    FLORENCE PRICE                $15.25    80.50        $1,802.75        $    247.88          $  58.58           $  968.98
+ 34-5632    CLAUDE DEBUSSY                $19.00    80.77        $1,546.85        $    212.69          $  50.27           $  831.43
+ 40-3223    JUDITH WEIR                   $10.29    80.00        $1,045.97        $    143.82          $  33.99           $  562.21
+ 64-6512    LUDWIG VAN BEETHOVEN          $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+ 65-6002    JOHANN SEBASTIAN BACH         $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+ 38-7032    AARON COPLAND                 $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 49-6627    CHARLES IVES                  $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 23-4524    SHULAMIT RAN                  $15.25    80.50        $1,702.75        $    234.13          $  55.33           $  915.23
+ 34-5632    ARTHUR HONEGGER               $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 40-3223    NADIA BOULANGER               $10.29    80.00        $1,046.97        $    143.96          $  34.02           $  562.74
+                                        STATE OF ILLINOIS NATIONAL BANK                                                  PAGE:    2
+                                      SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+EMPLOYEE    EMPLOYEE                     HOURLY  HOURS        EMPLOYEE    EMPLOYEE FEDERAL    EMPLOYEE STATE        EMPLOYEE
+ID          NAME                         PAY     WORKED       GROSS PAY         WITHOLDING        WITHOLDING        NET PAY
+---------   -------------------------    ------- -------  ---------------   ----------------   ----------------   ----------------
+ 64-6512    MAX REGER                     $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+ 65-6002    FRANZ SCHMIDT                 $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+ 38-7032    WILLIAM SCHUMAN               $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 89-9627    FELIX MENDELSSOHN             $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 23-7724    FRANZ SCHUBERT                $15.25    80.50        $1,702.75        $    234.13          $  55.33           $  915.23
+ 35-6632    ROBERT SCHUMANN               $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 40-3223    DMITRI SCHOSTAKOWITSCH        $30.29    80.00        $6,645.97        $  3,663.82          $ 865.99           $4,322.21
+ 56-4512    JOHANNES BRAHMS               $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+ 65-6002    MODEST MUSSORGSKY             $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+ 33-2032    JOSEPH HAYDN                  $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 49-6632    ANTON WEBERN                  $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 25-4524    CLAUDIO MONTEVERDI            $33.33    80.20        $3,148.19        $    432.88          $ 102.31           $1,692.15
+ 34-5632    JEAN SIBELIUS                 $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 44-5723    ARNOLD SCHOENBERG             $10.29    80.00        $1,025.97        $    141.07          $  33.34           $  551.46
+ 65-6512    MICHAEL TIPPETT               $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+    5652    RICHARD WAGNER                $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+ 38-7879    FREDERIC CHOPIN               $22.95    79.50        $2,256.28        $    310.24          $  73.32           $1,212.75
+                                        STATE OF ILLINOIS NATIONAL BANK                                                  PAGE:    3
+                                      SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+EMPLOYEE    EMPLOYEE                     HOURLY  HOURS        EMPLOYEE    EMPLOYEE FEDERAL    EMPLOYEE STATE        EMPLOYEE
+ID          NAME                         PAY     WORKED       GROSS PAY         WITHOLDING        WITHOLDING        NET PAY
+---------   -------------------------    ------- -------  ---------------   ----------------   ----------------   ----------------
+ 49-6627    MICHAEL HAYDN                 $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 23-4524    BENJAMIN BRITTEN              $15.25    80.50        $1,702.75        $    234.13          $  55.33           $  915.23
+ 34-5632    ANTONIO VIVALDI               $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 43-2486    JOHANN STRAUSS II             $10.29    80.00        $5,045.97        $  8,943.82          $,113.99           $4,962.21
+ 64-6517    ANTONIN DVORAK                $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+ 99-7802    ALBAN BERG                    $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+ 38-7032    FRANZ LISZT                   $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 46-7867    EDWARD ELGAR                  $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 23-8678    DAVID DIAMOND                 $15.25    80.50        $1,702.75        $    234.13          $  55.33           $  915.23
+ 43-4232    FANNY MENDELSSOHN             $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 40-3767    GIUSEPPE VERDI                $10.29    80.00        $1,045.97        $    143.82          $  33.99           $  562.21
+ 64-6512    MAX BRUCH                     $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+ 65-3454    HILDEGARD VON BINGEN          $23.75    28.25        $0,482.64        $  2,816.36          $ 665.68           $1,009.42
+ 38-4534    DIETRICH BUXTEHUDE            $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 44-6627    RALPH VAUGHAN WILLIAMS        $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 23-4786    FRANZ ABT                     $15.25    77.53        $1,140.45        $    156.81          $  37.06           $  612.99
+ 37-8763    FRANCESCA CACCINI             $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+                                        STATE OF ILLINOIS NATIONAL BANK                                                  PAGE:    4
+                                      SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+EMPLOYEE    EMPLOYEE                     HOURLY  HOURS        EMPLOYEE    EMPLOYEE FEDERAL    EMPLOYEE STATE        EMPLOYEE
+ID          NAME                         PAY     WORKED       GROSS PAY         WITHOLDING        WITHOLDING        NET PAY
+---------   -------------------------    ------- -------  ---------------   ----------------   ----------------   ----------------
+ 40-3223    ENGELBERT HUMPERDINCK         $10.29    80.00        $1,045.97        $    143.82          $  33.99           $  562.21
+ 64-6512    BORIS BLACHER                 $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+ 65-6002    PAUL HINDEMITH                $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+ 38-7032    BARBARA STROZZI               $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 49-6627    KURT WEILL                    $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 23-4524    CLARA SCHUMANN                $15.25    80.50        $1,702.75        $    234.13          $  55.33           $  915.23
+ 34-5632    JOHANN ANTON ANDRE            $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 40-3223    CHRISTOPH WILLIBALD GLUCK     $10.29    80.00        $1,045.97        $    143.82          $  33.99           $  562.21
+ 64-6512    AUGUST BUNGERT                $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+ 65-6002    REINER BREDEMEYER             $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+ 38-7032    LOUISE FARENC                 $22.95    80.50        $1,893.73        $    260.39          $  61.54           $1,017.88
+ 49-6627    HANS PFITZNER                 $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 23-4524    GIOVANNI HENRICO ALBINONI     $15.25    80.50        $1,779.05        $    244.62          $  57.81           $  956.24
+ 39-6797    MICHAEL VON BIEL              $19.00    80.75        $1,543.15        $    212.18          $  50.15           $  829.45
+ 67-6523    JOHANN LUDWIG BACH            $10.29    80.00        $1,445.75        $    198.79          $  46.98           $  777.09
+ 56-5676    TERESA CARRENO                $22.00    80.56        $1,916.48        $    263.52          $  62.28           $1,030.10
+ 65-6002    WOLDEMAR BARGIEL              $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+                                        STATE OF ILLINOIS NATIONAL BANK                                                  PAGE:    5
+                                      SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+EMPLOYEE    EMPLOYEE                     HOURLY  HOURS        EMPLOYEE    EMPLOYEE FEDERAL    EMPLOYEE STATE        EMPLOYEE
+ID          NAME                         PAY     WORKED       GROSS PAY         WITHOLDING        WITHOLDING        NET PAY
+---------   -------------------------    ------- -------  ---------------   ----------------   ----------------   ----------------
+ 38-7032    ANDRZEJ PANUFNIK              $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 49-6627    EDVARD GRIEG                  $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 87-6524    WALTER BRAUNFELS              $15.25    80.50        $1,702.75        $    234.13          $  55.33           $  915.23
+ 39-7632    ISABELLA LEONARDA             $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 40-3565    CAMILLE SAINT-SAENS           $10.29    80.00        $1,665.97        $    229.07          $  54.14           $  895.46
+ 64-8762    GEORGES BIZET                 $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+ 96-7902    HECTOR BERLIOZ                $23.75    28.25        $1,307.34        $    179.76          $  42.48           $  702.69
+ 78-6032    GABRIEL FAURE                 $22.95    80.50        $2,489.91        $    342.36          $  80.92           $1,338.33
+ 44-5224    MAURICE RAVEL                 $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 23-4524    CHARLES GOUNOD                $15.25    80.50        $1,701.29        $    233.93          $  55.29           $  914.44
+ 37-8632    ROXANNA PANUFNIK              $19.00    80.74        $1,293.00        $    177.79          $  42.02           $  694.98
+ 40-3223    GIACOMO MEYERBEER             $10.29    80.00        $1,045.97        $    143.82          $  33.99           $  562.21
+ 64-6512    ERIK SATIE                    $22.00    80.00        $0,645.16        $  1,463.71          $ 345.96           $5,721.77
+ 64-5502    KARLHEINZ STOCKHAUSEN         $23.75    28.25        $1,071.14        $    147.28          $  34.81           $  575.74
+ 38-7034    FRANCIS POULENC               $45.95    78.65        $6,590.92        $  3,656.25          $ 864.20           $4,292.62
+ 49-6627    JEAN-PHILIPPE RAMEAU          $20.20    75.67        $1,737.97        $    238.97          $  56.48           $  934.16
+ 23-4524    CECILE CHAMINADE              $15.25    80.50        $1,702.75        $    234.13          $  55.33           $  915.23
+                                        STATE OF ILLINOIS NATIONAL BANK                                                  PAGE:    6
+                                      SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+EMPLOYEE    EMPLOYEE                     HOURLY  HOURS        EMPLOYEE    EMPLOYEE FEDERAL    EMPLOYEE STATE        EMPLOYEE
+ID          NAME                         PAY     WORKED       GROSS PAY         WITHOLDING        WITHOLDING        NET PAY
+---------   -------------------------    ------- -------  ---------------   ----------------   ----------------   ----------------
+ 34-5632    CESAR FRANCK                  $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 40-3223    HANS ZIMMER                   $10.29    80.00        $1,045.97        $    143.82          $  33.99           $  562.21
+ 64-6512    PIERRE BOULEZ                 $27.52     4.00        $  995.24        $    136.85          $  32.34           $  534.94
+ 65-6076    OLIVIER MESSIAEN              $23.02    75.25        $1,768.96        $    243.23          $  57.49           $  950.82
+ 38-7032    DARIUS MILHAUD                $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 49-6627    REBECCA CLARKE                $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 23-2454    PETER CORNELIUS               $15.25    80.50        $1,702.75        $    234.13          $  55.33           $  915.23
+ 34-5632    HANS WERNER HENZE             $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 11-5523    GEORG BOHM                    $10.29    80.00        $1,045.97        $    143.82          $  33.99           $  562.21
+ 11-6531    GERMAINE TAILLEFERRE          $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+ 61-4502    WILHELM FURTWANGLER           $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+ 38-1412    HANNS EISLER                  $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 49-5453    GEORG FRIEDRICH HANDEL        $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 23-3424    CARL PHILIPP EMANUEL BACH     $15.25    80.50        $1,702.75        $    234.13          $  55.33           $  915.23
+ 34-5632    LILI BOULANGER                $19.00    22.75        $  445.69        $     61.28          $  14.48           $  239.56
+ 40-3223    JOHANN PACHELBEL              $10.29    80.00        $1,045.97        $    143.82          $  33.99           $  562.21
+ 64-6512    CARL ORFF                     $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+                                        STATE OF ILLINOIS NATIONAL BANK                                                  PAGE:    7
+                                      SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+EMPLOYEE    EMPLOYEE                     HOURLY  HOURS        EMPLOYEE    EMPLOYEE FEDERAL    EMPLOYEE STATE        EMPLOYEE
+ID          NAME                         PAY     WORKED       GROSS PAY         WITHOLDING        WITHOLDING        NET PAY
+---------   -------------------------    ------- -------  ---------------   ----------------   ----------------   ----------------
+ 65-6002    FRANZ DANZI                   $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+ 31-3414    JOCELYN POOK                  $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 49-6627    WILHELM BERGER                $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 14-1324    JACQUES OFFENBACH             $15.25    80.50        $1,702.75        $    234.13          $  55.33           $  915.23
+ 34-5632    PHAMIE GOW                    $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 40-3223    WILHELM FRIEDEMANN BACH       $10.29    80.00        $1,045.97        $    143.82          $  33.99           $  562.21
+ 64-6512    HEINRICH SCHUTZ               $22.00    80.00        $2,645.16        $    363.71          $  85.96           $1,421.77
+ 65-6002    GEORG PHILIPP TELEMANN        $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+ 38-7032    HANS-JURGEN VON BOSE          $22.95    80.50        $1,826.23        $    251.11          $  59.35           $  981.60
+ 49-6627    ANNE DUDLEY                   $20.20    78.67        $1,798.57        $    247.30          $  58.45           $  966.73
+ 23-4524    PAUL DESSAU                   $15.25    80.50        $1,702.75        $    234.13          $  55.33           $  915.23
+ 34-5632    FRIEDRICH BAUMFELDER          $19.00    80.75        $1,547.69        $    212.81          $  50.30           $  831.88
+ 40-3223    JOHANN CHRISTIAN BACH         $10.29    40.00        $  634.37        $     87.23          $  20.61           $  340.97
+ 64-6512    RACHEL PORTMAN                $22.00    52.00        $2,029.16        $    279.01          $  65.94           $1,090.67
+ 65-6002    DEBBIE WISEMAN                $23.75    28.25        $  707.64        $     97.30          $  22.99           $  380.36
+                                        STATE OF ILLINOIS NATIONAL BANK                                                  PAGE:    7
+                                      SEMI-MONTHLY EMPLOYEE PAYROLL REPORT
+                                                    TOTALS
+     NUMBER OF EMPLOYEES:           117
+         TOTAL GROSS PAY:      $330,791.71                  AVERAGE GROSS PAY:        $2,827.27
+TOTAL FEDERAL WITHOLDING:        $45,483.90         AVERAGE FEDERAL WITHOLDING:          $388.75
+  TOTAL STATE WITHOLDING:       $10,750.730          AVERAGE STATE WITHOLDING:           $91.85
+           TOTAL NET PAY:     $177,800.51                      AVERAGE NET PAY:        $15.195555
+*** EXECUTION TIME =    0.003 SECS.      7155 INSTRUCTIONS EXECUTED -  2385000 INSTRUCTIONS/SEC ***
+*** AM004 - NORMAL USER TERMINATION BY RETURN ***

@@ -1,0 +1,270 @@
+                   J E S 2  J O B  L O G  --  S Y S T E M  8 5 6 1  --  N O D E  S V S C J E S 2
+ 
+21.34.54 JOB02899 ---- WEDNESDAY, 10 MAY 2023 ----
+21.34.54 JOB02899  IRR010I  USERID KC03E3B  IS ASSIGNED TO THIS JOB.
+21.34.54 JOB02899  ICH70001I KC03E3B  LAST ACCESS AT 21:28:54 ON WEDNESDAY, MAY 10, 2023
+21.34.54 JOB02899  $HASP373 KC03E3BA STARTED - INIT 3    - CLASS A        - SYS 8561
+21.34.55 JOB02899  -                                      -----TIMINGS (MINS.)------                          -----PAGING COUNTS----
+21.34.55 JOB02899  -STEPNAME PROCSTEP    RC   EXCP   CONN       TCB       SRB  CLOCK          SERV  WORKLOAD  PAGE  SWAP   VIO SWAPS
+21.34.55 JOB02899  -JSTEP01              00     42      3       .00       .00     .0             7  BATCH        0     0     0     0
+21.34.55 JOB02899  -KC03E3BA ENDED.  NAME-K.GANDHI             TOTAL TCB CPU TIME=      .00 TOTAL ELAPSED TIME=    .0
+21.34.55 JOB02899  $HASP395 KC03E3BA ENDED - RC=0000
+------ JES2 JOB STATISTICS ------
+  10 MAY 2023 JOB EXECUTION DATE
+          102 CARDS READ
+          183 SYSOUT PRINT RECORDS
+            0 SYSOUT PUNCH RECORDS
+           16 SYSOUT SPOOL KBYTES
+         0.00 MINUTES EXECUTION TIME
+        1 //KC03E3BA JOB ,'K.GANDHI',MSGCLASS=H                                   JOB02899
+        2 //JSTEP01  EXEC PGM=ASSIST
+        3 //STEPLIB  DD DSN=KC00NIU.ASSIST.LOADLIB,DISP=SHR
+        4 //SYSPRINT DD SYSOUT=*
+        5 //SYSIN    DD *
+          //*
+        6 //FT05F001 DD DSN=KC02322.CSCI360.ASNDATA(DATA8),DISP=SHR
+          //*
+        7 //FT06F001 DD SYSOUT=*
+        8 //
+ICH70001I KC03E3B  LAST ACCESS AT 21:28:54 ON WEDNESDAY, MAY 10, 2023
+IEFA111I KC03E3BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+         SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+IEF236I ALLOC. FOR KC03E3BA JSTEP01
+IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+IEF237I JES2 ALLOCATED TO SYSPRINT
+IEF237I JES2 ALLOCATED TO SYSIN
+IGD103I SMS ALLOCATED TO DDNAME FT05F001
+IEF237I JES2 ALLOCATED TO FT06F001
+IEF142I KC03E3BA JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+IGD104I KC00NIU.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB
+IEF285I   KC03E3B.KC03E3BA.JOB02899.D0000102.?         SYSOUT
+IEF285I   KC03E3B.KC03E3BA.JOB02899.D0000101.?         SYSIN
+IGD104I KC02322.CSCI360.ASNDATA                      RETAINED,  DDNAME=FT05F001
+IEF285I   KC03E3B.KC03E3BA.JOB02899.D0000103.?         SYSOUT
+IEF373I STEP/JSTEP01 /START 2023130.2134
+IEF032I STEP/JSTEP01 /STOP  2023130.2134
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+        VIRT:   584K  SYS:   248K  EXT:        0K  SYS:    11324K
+        ATB- REAL:                  1056K  SLOTS:                     0K
+             VIRT- ALLOC:      13M SHRD:       0M
+IEF375I  JOB/KC03E3BA/START 2023130.2134
+IEF033I  JOB/KC03E3BA/STOP  2023130.2134
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+         PRINT NOGEN
+*******************************************************************
+*                                                                 *
+*  CSCI 360-PE1           ASSIGNMENT 8                 SPRING 23  *
+*                    INTRO TO PACKED DECIMAL                      *
+*                                                                 *
+*  DEVELOPER NAME: KUSH GANDHI                                    *
+*        DUE DATE: 4/7/23                                         *
+*                                                                 *
+*    PROGRAM NAME: PACKED DECIMAL                                 *
+*                                                                 *
+*    FUNCTION: PRINTS A PROPER REPORT USING PACKED DECIMAL        *
+*******************************************************************
+*
+PAYROLL2 CSECT
+*
+*  STANDARD ENTRY LINKAGE WITH R12 AS BASE REGISTER
+*
+         STM   14,12,12(13)  SAVE REGS IN CALLER'S SAVE AREA
+         LR    12,15         COPY CSECT ADDR INTO R12
+         USING PAYROLL2,12   ESTABLISH R12 AS THE BASE REG
+         LA    14,SAVEREGS   R14 POINTS TO THIS CSECT'S SAVE AREA
+         ST    14,8(,13)     STORE ADDR OF THIS CSECT'S SAVE AREA
+         ST    13,4(,14)     STORE ADDR OF CALLER'S SAVE AREA
+         LR    13,14         POINT R13 AT THIS CSECT'S SAVE AREA
+*
+*
+         XREAD DETAIL,80
+LOOP     BC   B'0100',ENDLOOP BRANCH TO ENDLOOP1 IF EOF
+*
+* READS THE EMPLOYEE NAME AND ID INTO PRINTLINE
+         MVC   OEMPNAME(25),DETAIL+0
+         MVC   OEMPID(6),DETAIL+25
+*
+         PACK  PAYRATE(3),PAY(5)            PACKS PAYRATE
+         MVC   OHOURPAY(5),=X'20204B2020'
+         ED    OHOURPAY(5),PAYRATE          GETS IT READY FOR OUTPUT
+*
+         PACK  HOURS(3),HOURSWOR(5)         PACKS HOURS WORKED
+         MVC   OHOURS(5),=X'20204B2020'     EDIT PATTERN FOR HOURS
+         ED    OHOURS(5),HOURS              GETS IT READY FOR OUTPUT
+*
+* AFTER THIS STEP, I AM GETTING AN ABEND FOR ZAP WHICH I DIDN'T INCLUDE
+* IT. BUT IT SHOULD BE SOMETHING LIKE ZAP GPAY(6),PAY(3) MP GPAY(6),
+* HOURSWORK(3) SRP GPAY(6),64-2,5
+*
+         XPRNT EMPLOYEE,133                 PRINTS EMPLOYEE DETAILS
+         XREAD DETAIL,133                   READ THE NEXT EMPLOYEE
+         BC    B'1111',LOOP
+*
+ENDLOOP  DS    0H
+*
+*  STANDARD EXIT LINKAGE WITH RC OF 0
+*
+         SR    15,15        R15 = RETURN CODE OF 0
+         L     13,4(,13)    POINT R13 TO CALLER'S SAVE AREA
+         L     14,12(,13)   RESTORE REGISTER 14
+         LM    0,12,20(13)  RESTORE R0 THRU R12
+*
+         BR    14           RETURN TO CALLER
+*
+         LTORG
+*
+SAVEREGS DS    18F          PROGRAM'S REGISTER SAVE AREA
+*
+*  Here is where your storage will be defined.
+*
+DETAIL   DS    CL80
+*
+PAY      DS    ZL5          PACK INTO 3 BYTES FOR PAYRATE
+HOURSWOR DS    ZL5          PACKS INTO 3 BYTES FOR HOURS
+*
+PAYRATE  DC    PL3'0'       PACKED EMPLOYEE PAYRATE
+HOURS    DC    PL3'0'       PACKED HOUR RATE
+GPAY     DC    PL5'0'       PACKED TOTAL GROSS PAY
+*
+* OUTPUT FOR EMPLOYEE DETAIL RECORD
+*
+EMPLOYEE DC    C'0'
+OEMPNAME DS    CL25
+         DC    4C' '
+OEMPID   DS    CL5
+         DC    4C' '
+OHOURPAY DS    CL4
+         DC    4C' '
+OHOURS   DS    CL5
+         DC    4C' '
+OGPAY    DS    CL8
+         DC    70C' '
+*
+         END   PAYROLL2
+*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT
+ 
+                                                                                                               PAGE    1
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+                                      2 *******************************************************************
+                                      3 *                                                                 *
+                                      4 *  CSCI 360-PE1           ASSIGNMENT 8                 SPRING 23  *
+                                      5 *                    INTRO TO PACKED DECIMAL                      *
+                                      6 *                                                                 *
+                                      7 *  DEVELOPER NAME: KUSH GANDHI                                    *
+                                      8 *        DUE DATE: 4/7/23                                         *
+                                      9 *                                                                 *
+                                     10 *    PROGRAM NAME: PACKED DECIMAL                                 *
+                                     11 *                                                                 *
+                                     12 *    FUNCTION: PRINTS A PROPER REPORT USING PACKED DECIMAL        *
+                                     13 *******************************************************************
+                                     14 *
+000000                               15 PAYROLL2 CSECT
+                                     16 *
+                                     17 *  STANDARD ENTRY LINKAGE WITH R12 AS BASE REGISTER
+                                     18 *
+000000 90EC D00C            0000C    19          STM   14,12,12(13)  SAVE REGS IN CALLER'S SAVE AREA
+000004 18CF                          20          LR    12,15         COPY CSECT ADDR INTO R12
+000000                               21          USING PAYROLL2,12   ESTABLISH R12 AS THE BASE REG
+000006 41E0 C078            00078    22          LA    14,SAVEREGS   R14 POINTS TO THIS CSECT'S SAVE AREA
+00000A 50E0 D008            00008    23          ST    14,8(,13)     STORE ADDR OF THIS CSECT'S SAVE AREA
+00000E 50D0 E004            00004    24          ST    13,4(,14)     STORE ADDR OF CALLER'S SAVE AREA
+000012 18DE                          25          LR    13,14         POINT R13 AT THIS CSECT'S SAVE AREA
+                                     26 *
+                                     27 *
+000014 E000 C0C0 0050 000C0          28          XREAD DETAIL,80
+00001A 4740 C05E            0005E    29 LOOP     BC   B'0100',ENDLOOP BRANCH TO ENDLOOP1 IF EOF
+                                     30 *
+                                     31 * READS THE EMPLOYEE NAME AND ID INTO PRINTLINE
+00001E D218 C126 C0C0 00126 000C0    32          MVC   OEMPNAME(25),DETAIL+0
+000024 D205 C143 C0D9 00143 000D9    33          MVC   OEMPID(6),DETAIL+25
+                                     34 *
+00002A F224 C11A C110 0011A 00110    35          PACK  PAYRATE(3),PAY(5)            PACKS PAYRATE
+000030 D204 C14C C070 0014C 00070    36          MVC   OHOURPAY(5),=X'20204B2020'
+000036 DE04 C14C C11A 0014C 0011A    37          ED    OHOURPAY(5),PAYRATE          GETS IT READY FOR OUTPUT
+                                     38 *
+00003C F224 C11D C115 0011D 00115    39          PACK  HOURS(3),HOURSWOR(5)         PACKS HOURS WORKED
+000042 D204 C154 C070 00154 00070    40          MVC   OHOURS(5),=X'20204B2020'     EDIT PATTERN FOR HOURS
+000048 DE04 C154 C11D 00154 0011D    41          ED    OHOURS(5),HOURS              GETS IT READY FOR OUTPUT
+                                     42 *
+                                     43 * AFTER THIS STEP, I AM GETTING AN ABEND FOR ZAP WHICH I DIDN'T INCLUDE
+                                     44 * IT. BUT IT SHOULD BE SOMETHING LIKE ZAP GPAY(6),PAY(3) MP GPAY(6),
+                                     45 * HOURSWORK(3) SRP GPAY(6),64-2,5
+                                     46 *
+00004E E020 C125 0085 00125          47          XPRNT EMPLOYEE,133                 PRINTS EMPLOYEE DETAILS
+000054 E000 C0C0 0085 000C0          48          XREAD DETAIL,133                   READ THE NEXT EMPLOYEE
+00005A 47F0 C01A            0001A    49          BC    B'1111',LOOP
+                                     50 *
+00005E                               51 ENDLOOP  DS    0H
+                                     52 *
+                                     53 *  STANDARD EXIT LINKAGE WITH RC OF 0
+                                                                                                               PAGE    2
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+                                     54 *
+00005E 1BFF                          55          SR    15,15        R15 = RETURN CODE OF 0
+000060 58D0 D004            00004    56          L     13,4(,13)    POINT R13 TO CALLER'S SAVE AREA
+000064 58E0 D00C            0000C    57          L     14,12(,13)   RESTORE REGISTER 14
+000068 980C D014            00014    58          LM    0,12,20(13)  RESTORE R0 THRU R12
+                                     59 *
+00006C 07FE                          60          BR    14           RETURN TO CALLER
+                                     61 *
+                                     62          LTORG
+000070 20204B2020                    63                =X'20204B2020'
+                                     64 *
+000078                               65 SAVEREGS DS    18F          PROGRAM'S REGISTER SAVE AREA
+                                     66 *
+                                     67 *  Here is where your storage will be defined.
+                                     68 *
+0000C0                               69 DETAIL   DS    CL80
+                                     70 *
+000110                               71 PAY      DS    ZL5          PACK INTO 3 BYTES FOR PAYRATE
+000115                               72 HOURSWOR DS    ZL5          PACKS INTO 3 BYTES FOR HOURS
+                                     73 *
+00011A 00000C                        74 PAYRATE  DC    PL3'0'       PACKED EMPLOYEE PAYRATE
+00011D 00000C                        75 HOURS    DC    PL3'0'       PACKED HOUR RATE
+000120 000000000C                    76 GPAY     DC    PL5'0'       PACKED TOTAL GROSS PAY
+                                     77 *
+                                     78 * OUTPUT FOR EMPLOYEE DETAIL RECORD
+                                     79 *
+000125 F0                            80 EMPLOYEE DC    C'0'
+000126                               81 OEMPNAME DS    CL25
+00013F 40404040                      82          DC    4C' '
+000143                               83 OEMPID   DS    CL5
+000148 40404040                      84          DC    4C' '
+00014C                               85 OHOURPAY DS    CL4
+000150 40404040                      86          DC    4C' '
+000154                               87 OHOURS   DS    CL5
+000159 40404040                      88          DC    4C' '
+00015D                               89 OGPAY    DS    CL8
+000165 4040404040404040              90          DC    70C' '
+                                     91 *
+                                     92          END   PAYROLL2
+***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS
+*** DYNAMIC CORE AREA USED:  LOW:    3656 HIGH:     664 LEAVING:  489248 FREE BYTES. AVERAGE:       46 BYTES/STMT ***
+*** ASSEMBLY TIME =    0.000 SECS,    93000 STATEMENTS/SEC ***
+*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***
+WOLFGANG AMADEUS MOZART       12345   55.55   55.55    55555555
+RICHARD STRAUSS               23456   14.80   51.38    55555555
+AMY BEACH                     22132   41.45   53.85    55555555
+DAME ETHEL SMYTHE             65465   75.35   9.38    55555555
+PETER ILYICH TCHAIKOVSKY      44560   15.36   2.94    55555555
+ANTON BRUCKNER                99870   34.46   70.51    55555555
+LUDWIG VAN BEETHOVEN          13345   16.81   55.20    55555555
+JOHANNES BRAHMS               24456   25.31   21.93    55555555
+BELA BARTOK                   22532   41.70   57.59    55555555
+MAX REGER                     11465   21.44   30.21    55555555
+SAMUEL BARBER            21.4 13360      10.80    55555555
+GIUSEPPE VERDI                99873   16.81   50.25    55555555
+JOHANN SEBASTIAN BACH         12342   16.25   80.81    55555555
+JOSEPH HAYDN                  23452   75.69   6.99    55555555
+GEORG FRIEDRICH HANDEL        22131   59.26   19.09    55555555
+NIKOLAI RIMSKY-KORSAKOV       44378   54.61   40.53    55555555
+EDWARD ELGAR                  65411   33.14   50.45    55555555
+CLAUDE DEBUSSY                99855   15.36   95.04    55555555
+ANTONIN DVORAK                13346   38.64   20.31    55555555
+THOMAS TALLIS                 24457   91.37   5.14    55555555
+RALPH VAUGHAN WILLIAMS        22538   99.38   94.06    55555555
+RICHARD WAGNER           99.3 11477      10.80    55555555
+FREDERIC CHOPIN               17777   16.15   36.65    55555555
+JOAN TOWER                    99211   16.25   80.81    55555555
+*** EXECUTION TIME =    0.000 SECS.       301 INSTRUCTIONS EXECUTED -   301000 INSTRUCTIONS/SEC ***
+*** AM004 - NORMAL USER TERMINATION BY RETURN ***

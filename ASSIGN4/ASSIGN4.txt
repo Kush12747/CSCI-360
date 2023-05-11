@@ -1,0 +1,156 @@
+                   J E S 2  J O B  L O G  --  S Y S T E M  8 5 6 1  --  N O D E  S V S C J E S 2
+ 
+21.10.19 JOB02854 ---- WEDNESDAY, 10 MAY 2023 ----
+21.10.19 JOB02854  IRR010I  USERID KC03E3B  IS ASSIGNED TO THIS JOB.
+21.10.19 JOB02854  ICH70001I KC03E3B  LAST ACCESS AT 20:35:06 ON WEDNESDAY, MAY 10, 2023
+21.10.19 JOB02854  $HASP373 KC03E3BA STARTED - INIT 2    - CLASS A        - SYS 8561
+21.10.19 JOB02854  -                                      -----TIMINGS (MINS.)------                          -----PAGING COUNTS----
+21.10.19 JOB02854  -STEPNAME PROCSTEP    RC   EXCP   CONN       TCB       SRB  CLOCK          SERV  WORKLOAD  PAGE  SWAP   VIO SWAPS
+21.10.19 JOB02854  -JSTEP01              00     23      2       .00       .00     .0             4  BATCH        0     0     0     0
+21.10.19 JOB02854  -KC03E3BA ENDED.  NAME-K. GANDHI            TOTAL TCB CPU TIME=      .00 TOTAL ELAPSED TIME=    .0
+21.10.19 JOB02854  $HASP395 KC03E3BA ENDED - RC=0000
+------ JES2 JOB STATISTICS ------
+  10 MAY 2023 JOB EXECUTION DATE
+           42 CARDS READ
+          125 SYSOUT PRINT RECORDS
+            0 SYSOUT PUNCH RECORDS
+           12 SYSOUT SPOOL KBYTES
+         0.00 MINUTES EXECUTION TIME
+        1 //KC03E3BA JOB ,'K. GANDHI',MSGCLASS=H                                  JOB02854
+        2 //JSTEP01  EXEC PGM=ASSIST
+        3 //STEPLIB  DD DSN=KC00NIU.ASSIST.LOADLIB,DISP=SHR
+        4 //SYSPRINT DD SYSOUT=*
+        5 //SYSIN    DD *
+        6 //
+ICH70001I KC03E3B  LAST ACCESS AT 20:35:06 ON WEDNESDAY, MAY 10, 2023
+IEFA111I KC03E3BA IS USING THE FOLLOWING JOB RELATED SETTINGS:
+         SWA=ABOVE,TIOT SIZE=32K,DSENQSHR=DISALLOW,GDGBIAS=JOB
+IEF236I ALLOC. FOR KC03E3BA JSTEP01
+IGD103I SMS ALLOCATED TO DDNAME STEPLIB
+IEF237I JES2 ALLOCATED TO SYSPRINT
+IEF237I JES2 ALLOCATED TO SYSIN
+IEF142I KC03E3BA JSTEP01 - STEP WAS EXECUTED - COND CODE 0000
+IGD104I KC00NIU.ASSIST.LOADLIB                       RETAINED,  DDNAME=STEPLIB
+IEF285I   KC03E3B.KC03E3BA.JOB02854.D0000102.?         SYSOUT
+IEF285I   KC03E3B.KC03E3BA.JOB02854.D0000101.?         SYSIN
+IEF373I STEP/JSTEP01 /START 2023130.2110
+IEF032I STEP/JSTEP01 /STOP  2023130.2110
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+        VIRT:   584K  SYS:   248K  EXT:        0K  SYS:    11276K
+        ATB- REAL:                  1056K  SLOTS:                     0K
+             VIRT- ALLOC:      13M SHRD:       0M
+IEF375I  JOB/KC03E3BA/START 2023130.2110
+IEF033I  JOB/KC03E3BA/STOP  2023130.2110
+        CPU:     0 HR  00 MIN  00.00 SEC    SRB:     0 HR  00 MIN  00.00 SEC
+*****************************************************************
+*                                                               *
+*  CSCI 360-PE1           ASSIGNMENT 4           SPRING 2023    *
+*                                                               *
+*  DEVELOPER NAME: KUSH GANDHI                                  *
+*                                                               *
+*        DUE DATE: 02/24/2023                                   *
+*                                                               *
+*****************************************************************
+*
+DUMPEX   CSECT
+         USING DUMPEX,15    ESTABLISH REG 15 AS BASE REG
+*
+         SR    7,7          CLEAR REG 7
+*
+         LA    8,NUM1       LOAD ADDRESS OF NUM1
+         LA    9,NUM2       LOAD ADDRESS OF NUM2
+*
+         A     7,0(,8)      ADD NUM1 TO REG 7
+         A     7,0(,9)      ADD NUM2 TO REG 7
+*
+         LA    10,SUMMED    LOAD ADDRESS OF SUMMED
+         ST    7,0(,10)     STORE THE SUM OF VARIABLES
+*
+         XDUMP ,            DUMP REGS
+*
+         LTORG
+*
+SUMMED   DS    F            FULLWORD OF ZERO TO HOLD SUMMED INTEGERS
+*
+NUM1     DC    F'972460'      RANDOM INTEGER 1
+NUM2     DC    F'1206000000'  RANDOM INTEGER 2
+NUM3     DC    F'1344335922'  RANDOM INTEGER 3
+*
+         END   DUMPEX
+*** ASSIST 4.0/A2-05/15/82  470/V7A/0:OS/VS2  INS=SDFP7/X=BGHO, CHECK/TRC/=1180, OPTS=CDKMPR FROM PENN ST*NIU COMPSCI*LT
+ 
+                                                                                                               PAGE    1
+  LOC  OBJECT CODE    ADDR1 ADDR2  STMT   SOURCE STATEMENT
+                                      1 *****************************************************************
+                                      2 *                                                               *
+                                      3 *  CSCI 360-PE1           ASSIGNMENT 4           SPRING 2023    *
+                                      4 *                                                               *
+                                      5 *  DEVELOPER NAME: KUSH GANDHI                                  *
+                                      6 *                                                               *
+                                      7 *        DUE DATE: 02/24/2023                                   *
+                                      8 *                                                               *
+                                      9 *****************************************************************
+                                     10 *
+000000                               11 DUMPEX   CSECT
+000000                               12          USING DUMPEX,15    ESTABLISH REG 15 AS BASE REG
+                                     13 *
+000000 1B77                          14          SR    7,7          CLEAR REG 7
+                                     15 *
+000002 4180 F024            00024    16          LA    8,NUM1       LOAD ADDRESS OF NUM1
+000006 4190 F028            00028    17          LA    9,NUM2       LOAD ADDRESS OF NUM2
+                                     18 *
+00000A 5A70 8000            00000    19          A     7,0(,8)      ADD NUM1 TO REG 7
+00000E 5A70 9000            00000    20          A     7,0(,9)      ADD NUM2 TO REG 7
+                                     21 *
+000012 41A0 F020            00020    22          LA    10,SUMMED    LOAD ADDRESS OF SUMMED
+000016 5070 A000            00000    23          ST    7,0(,10)     STORE THE SUM OF VARIABLES
+                                     24 *
+00001A E160 0000 0000 00000          25          XDUMP ,            DUMP REGS
+                                     26 *
+                                     27          LTORG
+                                     28 *
+000020                               29 SUMMED   DS    F            FULLWORD OF ZERO TO HOLD SUMMED INTEGERS
+                                     30 *
+000024 000ED6AC                      31 NUM1     DC    F'972460'      RANDOM INTEGER 1
+000028 47E21980                      32 NUM2     DC    F'1206000000'  RANDOM INTEGER 2
+00002C 5020F032                      33 NUM3     DC    F'1344335922'  RANDOM INTEGER 3
+                                     34 *
+                                     35          END   DUMPEX
+***  NO   STATEMENTS FLAGGED -  NO   WARNINGS,  NO   ERRORS
+*** DYNAMIC CORE AREA USED:  LOW:    1120 HIGH:     416 LEAVING:  492032 FREE BYTES. AVERAGE:       42 BYTES/STMT ***
+*** ASSEMBLY TIME =    0.000 SECS,    36000 STATEMENTS/SEC ***
+*** PROGRAM EXECUTION BEGINNING - ANY OUTPUT BEFORE EXECUTION TIME MESSAGE IS PRODUCED BY USER PROGRAM ***
+BEGIN XSNAP - CALL     1 AT E0000020 USER REGISTERS
+ REGS 0-7      F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    47F0F02C
+ REGS 8-15     00000024    00000028    00000020    F4F4F4F4    F4F4F4F4    00000030    FFFE7960    00000000
+ 
+*** EXECUTION TIME =    0.000 SECS.        10 INSTRUCTIONS EXECUTED -    10000 INSTRUCTIONS/SEC ***
+*** FIRST CARD NOT READ: NO CARDS READ:FILE UNOPENED
+ ASSIST COMPLETION DUMP
+PSW AT ABEND FFC50006 A0000030       COMPLETION CODE   SYSTEM = 0C6 SPECIFICATION
+** TRACE OF INSTRUCTIONS JUST BEFORE TERMINATION: PSW BITS SHOWN ARE THOSE BEFORE CORRESPONDING INSTRUCTION DECODED ***
+  IM LOCATION    INSTRUCTION :  IM = PSW BITS 32-39(ILC,CC,MASK) BEFORE INSTRUCTION EXECUTED AT PROGRAM LOCATION SHOWN
+  00  000000     1B77
+  40  000002     4180 F024
+  80  000006     4190 F028
+  80  00000A     5A70 8000
+  A0  00000E     5A70 9000
+  A0  000012     41A0 F020
+  A0  000016     5070 A000
+  A0  00001A     E160 0000 0000
+  E0  000020     47F0 F02C
+  A0  00002C     5020 F032       <-- LAST INSTRUCTION DONE - PROBABLE CAUSE OF TERMINATION
+ 
+** TRACE OF LAST 10 BRANCH INSTRUCTIONS EXECUTED: PSW BITS SHOWN ARE THOSE BEFORE CORRESPONDING INSTRUCTION DECODED ***
+  IM LOCATION    INSTRUCTION :  IM = PSW BITS 32-39(ILC,CC,MASK) BEFORE INSTRUCTION EXECUTED AT PROGRAM LOCATION SHOWN
+  20  000020     47F0 F02C
+ REGS 0-7      F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    F4F4F4F4    47F0F02C
+ REGS 8-15     00000024    00000028    00000020    F4F4F4F4    F4F4F4F4    00000030    FFFE7960    00000000
+ FLTR 0-6      F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4        F4F4F4F4F4F4F4F4
+ USER STORAGE
+                             CORE ADDRESSES SPECIFIED-     000000 TO 000178
+000000   1B774180 F0244190 F0285A70 80005A70    900041A0 F0205070 A000E160 00000000   *....0...0...........0...........*
+000020   47F0F02C 000ED6AC 47E21980 5020F032    F5F5F5F5 00000000 F5F5F5F5 F5F5F5F5   *.00...O..S....0.5555....55555555*
+000040   F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5    F5F5F5F5 F5F5F5F5 F5F5F5F5 F5F5F5F5   *55555555555555555555555555555555*
+  LINES    000060-000140    SAME AS ABOVE
+ 
